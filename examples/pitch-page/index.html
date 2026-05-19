@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[Your Project Name] — Architecture Overview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3a;
+    --text: #e8e8ef;
+    --dim: #8888a0;
+    --accent: #6c63ff;
+    --green: #00d4aa;
+    --red: #ff6b6b;
+    --gold: #ffd93d;
+    --blue: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 4rem 2rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 40%, rgba(108,99,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(0,212,170,0.06) 0%, transparent 50%);
+    animation: drift 20s ease-in-out infinite;
+  }
+  @keyframes drift { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-2%,2%)} }
+
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+  .hero-badge {
+    display: inline-block; padding: 0.4rem 1.2rem;
+    border: 1px solid var(--border); border-radius: 100px;
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--green); margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4.2rem); font-weight: 800; line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero p { font-size: 1.12rem; color: var(--dim); max-width: 600px; margin: 0 auto 3rem; }
+
+  .hero-stats { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; }
+  .hero-stat .number {
+    font-size: 2.5rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-stat .label { font-size: 0.78rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* ── Shared ── */
+  section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .divider { height: 1px; background: var(--border); max-width: 1100px; margin: 0 auto; }
+  .sl { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.8rem; }
+  .sd { color: var(--dim); font-size: 1rem; max-width: 650px; margin-bottom: 2.5rem; }
+
+  /* ── Flow ── */
+  .flow { display: flex; align-items: center; justify-content: center; gap: 0.8rem; flex-wrap: wrap; margin: 2rem 0; padding: 2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; }
+  .flow-step { text-align: center; padding: 1rem 1.2rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; min-width: 130px; }
+  .flow-step .fi { font-size: 1.4rem; margin-bottom: 0.3rem; }
+  .flow-step .fl { font-size: 0.78rem; font-weight: 600; }
+  .flow-step .fd { font-size: 0.65rem; color: var(--dim); margin-top: 0.15rem; }
+  .fa { font-size: 1.4rem; color: var(--accent); }
+
+  /* ── Agent Grid ── */
+  .ag { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; }
+  .ac { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; transition: transform 0.2s, border-color 0.2s; }
+  .ac:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .ac.primary { border-color: var(--accent); background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(0,212,170,0.04)); grid-column: 1 / -1; }
+  .ah { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.8rem; }
+  .ai { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .an { font-weight: 600; font-size: 0.95rem; }
+  .ar { font-size: 0.75rem; color: var(--dim); }
+  .ad { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
+  .at { margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .tag { padding: 0.18rem 0.55rem; border-radius: 5px; font-size: 0.65rem; font-weight: 500; background: var(--surface2); color: var(--dim); border: 1px solid var(--border); }
+
+  /* ── Architecture Diagram ── */
+  .arch { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 2.5rem 2rem; margin: 1.5rem 0; }
+  .al-wrap { display: flex; flex-direction: column; gap: 0.6rem; max-width: 800px; margin: 0 auto; }
+  .al { display: flex; align-items: center; gap: 1.2rem; padding: 1.1rem 1.3rem; border-radius: 11px; border: 1px solid var(--border); background: var(--surface2); }
+  .al-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; width: 95px; flex-shrink: 0; text-align: right; }
+  .al-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; flex: 1; }
+  .chip { padding: 0.3rem 0.7rem; border-radius: 7px; font-size: 0.73rem; font-weight: 500; }
+  .chip.v { background: rgba(108,99,255,0.1); color: var(--accent); border: 1px solid rgba(108,99,255,0.2); }
+  .chip.g { background: rgba(0,212,170,0.1); color: var(--green); border: 1px solid rgba(0,212,170,0.2); }
+  .chip.o { background: rgba(255,217,61,0.1); color: var(--gold); border: 1px solid rgba(255,217,61,0.2); }
+  .chip.r { background: rgba(255,107,107,0.1); color: var(--red); border: 1px solid rgba(255,107,107,0.2); }
+  .aa { text-align: center; color: var(--dim); font-size: 1.1rem; padding: 0.2rem 0; }
+
+  /* ── Stack Grid ── */
+  .sg { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.1rem; }
+  .sc { background: var(--surface); border: 1px solid var(--border); border-radius: 13px; padding: 1.4rem; }
+  .sc h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .sc p { font-size: 0.82rem; color: var(--dim); line-height: 1.5; }
+  .sc .si { font-size: 1.6rem; margin-bottom: 0.6rem; display: block; }
+
+  /* ── Principles ── */
+  .pg { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; margin-top: 1.5rem; }
+  .pr { padding: 1.4rem; background: var(--surface); border: 1px solid var(--border); border-radius: 13px; }
+  .pn { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.4rem; }
+  .pr h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
+  .pr p { font-size: 0.82rem; color: var(--dim); line-height: 1.5; }
+
+  /* ── Roadmap ── */
+  .rm { position: relative; padding-left: 2rem; }
+  .rm::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .ri { position: relative; margin-bottom: 2.2rem; padding-left: 2rem; }
+  .ri::before { content: ''; position: absolute; left: -2rem; top: 6px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--accent); background: var(--bg); }
+  .ri.done::before { background: var(--green); border-color: var(--green); }
+  .ri.active::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 10px rgba(108,99,255,0.5); }
+  .rp { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.2rem; }
+  .rt { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.35rem; }
+  .rd { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
+
+  /* ── Real Example ── */
+  .ex { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 2.5rem 2rem; margin: 1.5rem 0; }
+  .ex-title { font-size: 1rem; font-weight: 600; text-align: center; margin-bottom: 0.4rem; }
+  .ex-sub { font-size: 0.8rem; color: var(--dim); text-align: center; margin-bottom: 2rem; }
+  .step { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
+  .step:last-child { margin-bottom: 0; }
+  .step-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .step-body { flex: 1; padding-top: 3px; }
+  .step-who { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem; }
+  .step-what { font-size: 0.88rem; font-weight: 500; }
+  .step-how { font-size: 0.78rem; color: var(--dim); margin-top: 0.2rem; }
+
+  /* ── CTA ── */
+  .cta { text-align: center; padding: 5rem 2rem; }
+  .cta h2 { font-size: 1.8rem; margin-bottom: 0.8rem; }
+  .cta p { color: var(--dim); max-width: 500px; margin: 0 auto 2rem; }
+  .cta-btn {
+    display: inline-block; padding: 0.85rem 2.2rem;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    color: #fff; font-weight: 600; font-size: 0.9rem; border-radius: 10px; text-decoration: none;
+  }
+
+  /* ── Problem Section (Before/After) ── */
+  .problem-text { font-size: 1rem; color: var(--dim); line-height: 1.8; margin-bottom: 1.5rem; max-width: 750px; }
+  .problem-hook { color: var(--text); font-weight: 500; }
+  .compare {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;
+  }
+  .compare-card {
+    padding: 2rem; border-radius: 14px; border: 1px solid var(--border);
+  }
+  .compare-card.before { background: var(--surface); }
+  .compare-card.after {
+    background: linear-gradient(135deg, rgba(108,99,255,0.06), rgba(0,212,170,0.04));
+    border-color: rgba(108,99,255,0.2);
+  }
+  .compare-card h3 {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 1.2rem;
+  }
+  .compare-card.before h3 { color: var(--dim); }
+  .compare-card.after h3 { color: var(--green); }
+  .compare-card li {
+    font-size: 0.92rem; color: var(--dim); margin-bottom: 0.7rem;
+    list-style: none; padding-left: 1.4rem; position: relative; line-height: 1.5;
+  }
+  .compare-card.before li::before {
+    content: '\2715'; position: absolute; left: 0; color: var(--red); font-size: 0.75rem; top: 0.2rem;
+  }
+  .compare-card.after li::before {
+    content: '\2713'; position: absolute; left: 0; color: var(--green); font-size: 0.8rem; top: 0.15rem;
+  }
+
+  /* ── Under the Hood (Collapsible) ── */
+  .how-section { margin-bottom: 2.5rem; }
+  .how-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.8rem; }
+  .how-number {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 700; color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+  }
+  .how-title { font-size: 1.1rem; font-weight: 600; padding-top: 0.35rem; }
+  .how-body { font-size: 0.95rem; color: var(--dim); line-height: 1.7; padding-left: 3rem; }
+  details { margin-top: 0.8rem; margin-left: 3rem; }
+  details summary {
+    font-size: 0.78rem; font-weight: 500; color: var(--accent);
+    cursor: pointer; user-select: none; padding: 0.4rem 0; letter-spacing: 0.02em;
+  }
+  details summary:hover { color: var(--green); }
+  details[open] summary { margin-bottom: 0.5rem; }
+  details .tech-content {
+    font-size: 0.82rem; color: var(--dim); line-height: 1.7;
+    padding: 1rem 1.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  }
+  details .tech-content code {
+    font-family: 'SF Mono', Menlo, monospace; font-size: 0.78rem;
+    background: var(--surface2); padding: 0.15rem 0.4rem; border-radius: 4px; color: var(--accent);
+  }
+
+  /* ── Differentiators ── */
+  .diff-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.1rem; margin: 2rem 0;
+  }
+  .diff-card {
+    padding: 1.8rem; background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  }
+  .diff-card .dtag {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem;
+  }
+  .diff-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .diff-card p { font-size: 0.88rem; color: var(--dim); line-height: 1.6; }
+
+  /* ── For You Paths ── */
+  .paths {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem; margin: 2rem 0;
+  }
+  .path-card {
+    padding: 2rem; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; transition: border-color 0.2s;
+  }
+  .path-card:hover { border-color: var(--accent); }
+  .path-card .path-label {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.8rem;
+  }
+  .path-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .path-card p { font-size: 0.88rem; color: var(--dim); line-height: 1.6; }
+
+  @media (max-width: 650px) {
+    .al { flex-direction: column; text-align: center; }
+    .al-label { width: auto; text-align: center; }
+    .flow { flex-direction: column; }
+    .fa { transform: rotate(90deg); }
+    .compare { grid-template-columns: 1fr; }
+    details { margin-left: 0; }
+    .how-body { padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Multi-Agent AI System</div>
+    <!-- TODO: Replace with your project name and tagline -->
+    <h1>One Human. Multiple Agents. No Memory Lost.</h1>
+    <p>A multi-agent orchestrator with persistent memory &mdash; where a Chief of Staff agent coordinates specialist agents across your domains, and every conversation, decision, and handoff is preserved forever.</p>
+    <div class="hero-stats">
+      <!-- TODO: Update these numbers to reflect your system -->
+      <div class="hero-stat"><div class="number">3</div><div class="label">Active Agents</div></div>
+      <div class="hero-stat"><div class="number">4</div><div class="label">Memory Layers</div></div>
+      <div class="hero-stat"><div class="number">13</div><div class="label">Enforced Rules</div></div>
+      <div class="hero-stat"><div class="number">0</div><div class="label">Sessions Run</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════ THE PROBLEM ═══════════ -->
+<section>
+  <div class="sl">The Problem</div>
+  <h2>AI today is a brilliant amnesiac</h2>
+  <p class="problem-text">
+    Most people use AI the same way: open a chat, ask a question, get an answer, close the window. Tomorrow you start over. The AI doesn't remember what you told it yesterday. It doesn't know what your other conversations were about. It can't talk to itself. You end up being the one holding all the context, doing all the coordination, repeating yourself constantly.
+  </p>
+  <p class="problem-text">
+    You're getting help from the smartest intern in the world &mdash; but an intern who shows up every morning with no memory of yesterday, no idea what their coworkers are working on, and no way to hand off their notes to the next shift.
+  </p>
+  <p class="problem-text problem-hook">
+    What if AI could be a team instead of a chatbot?
+  </p>
+
+  <div class="compare">
+    <div class="compare-card before">
+      <h3>How most people use AI</h3>
+      <ul>
+        <li>One conversation at a time, starting from scratch</li>
+        <li>You hold all the context in your head</li>
+        <li>Nothing carries over between sessions</li>
+        <li>You're the project manager, secretary, and relay system</li>
+        <li>AI helps you think, but you still do everything</li>
+      </ul>
+    </div>
+    <div class="compare-card after">
+      <!-- TODO: Replace with your system's specifics -->
+      <h3>How your system works</h3>
+      <ul>
+        <li>Multiple specialists working in parallel across your projects</li>
+        <li>A shared knowledge base that every agent reads on startup</li>
+        <li>Structured handoffs preserve context across sessions &mdash; forever</li>
+        <li>A Chief of Staff agent coordinates everything for you</li>
+        <li>You make decisions. They handle everything else.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ HOW IT WORKS ═══════════ -->
+<section>
+  <div class="sl">The System</div>
+  <h2>How It Works</h2>
+  <!-- TODO: Replace [Your Name] and [Admin Agent Name] -->
+  <p class="sd">[Your Name] directs strategy. [Admin Agent] &mdash; the admin agent &mdash; translates that into structured tasks, dispatches them to specialist agents, monitors progress, enforces protocols, and maintains the entire knowledge infrastructure.</p>
+
+  <div class="flow">
+    <div class="flow-step"><div class="fi">Y</div><div class="fl">[Your Name]</div><div class="fd">Strategy &amp; decisions</div></div>
+    <div class="fa">&rarr;</div>
+    <div class="flow-step"><div class="fi" style="color:var(--accent)">A</div><div class="fl">[Admin Agent]</div><div class="fd">Orchestration &amp; ops</div></div>
+    <div class="fa">&rarr;</div>
+    <div class="flow-step"><div class="fi" style="color:var(--green)">S</div><div class="fl">Specialist Agents</div><div class="fd">Domain execution</div></div>
+    <div class="fa">&rarr;</div>
+    <div class="flow-step"><div class="fi" style="color:var(--gold)">M</div><div class="fl">Shared Memory</div><div class="fd">Vault + SQLite + Notion</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ AGENTS ═══════════ -->
+<section>
+  <div class="sl">Agent Roster</div>
+  <h2>The Team</h2>
+  <p class="sd">Each agent has a defined role, versioned boot prompts, a dedicated inbox, a status file, and structured handoff protocols. Agents don't drift &mdash; they follow rules.</p>
+
+  <div class="ag">
+    <!-- TODO: Replace with your admin agent -->
+    <div class="ac primary">
+      <div class="ah">
+        <div class="ai" style="background:linear-gradient(135deg,var(--accent),var(--green))">A</div>
+        <div><div class="an">[Admin Agent] &mdash; Chief of Staff</div><div class="ar">Admin Agent &middot; v1</div></div>
+      </div>
+      <div class="ad">Orchestrates all agents. Manages the Obsidian vault, VaultBus message routing, and boot prompts. Your single point of contact for the entire system.</div>
+      <div class="at"><span class="tag">Coordination</span><span class="tag">Boot Prompts</span><span class="tag">VaultBus</span><span class="tag">Vault Ops</span></div>
+    </div>
+
+    <!-- TODO: Add your specialist agents. Copy this card and customize. -->
+    <div class="ac">
+      <div class="ah">
+        <div class="ai" style="background:#2563eb">1</div>
+        <div><div class="an">[Agent 1 Name]</div><div class="ar">v1 &middot; Active</div></div>
+      </div>
+      <div class="ad">[Describe what this agent does. What domain does it cover? What tools does it use? What has it accomplished?]</div>
+      <div class="at"><span class="tag">[Skill 1]</span><span class="tag">[Skill 2]</span><span class="tag">[Skill 3]</span></div>
+    </div>
+
+    <div class="ac">
+      <div class="ah">
+        <div class="ai" style="background:#dc2626">2</div>
+        <div><div class="an">[Agent 2 Name]</div><div class="ar">v1 &middot; Active</div></div>
+      </div>
+      <div class="ad">[Describe what this agent does. What domain does it cover? What tools does it use? What has it accomplished?]</div>
+      <div class="at"><span class="tag">[Skill 1]</span><span class="tag">[Skill 2]</span><span class="tag">[Skill 3]</span></div>
+    </div>
+
+    <div class="ac">
+      <div class="ah">
+        <div class="ai" style="background:#059669">3</div>
+        <div><div class="an">[Agent 3 Name]</div><div class="ar">v1 &middot; Standing By</div></div>
+      </div>
+      <div class="ad">[Describe what this agent does. What domain does it cover? What tools does it use? What has it accomplished?]</div>
+      <div class="at"><span class="tag">[Skill 1]</span><span class="tag">[Skill 2]</span><span class="tag">[Skill 3]</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ ARCHITECTURE ═══════════ -->
+<section>
+  <div class="sl">Architecture</div>
+  <h2>Four-Layer Stack</h2>
+  <p class="sd">Human interaction, agent coordination, persistent memory, and execution &mdash; each layer has a clear source of truth and defined boundaries.</p>
+
+  <div class="arch">
+    <div class="al-wrap">
+      <div class="al">
+        <div class="al-label" style="color:var(--red)">Human</div>
+        <div class="al-chips">
+          <!-- TODO: Replace with your tools -->
+          <span class="chip r">Cowork UI</span><span class="chip r">[Design Partner]</span><span class="chip r">[Your Name] (Strategy)</span>
+        </div>
+      </div>
+      <div class="aa">&darr;</div>
+      <div class="al">
+        <div class="al-label" style="color:var(--accent)">Coordination</div>
+        <div class="al-chips">
+          <span class="chip v">[Admin Agent] (Orchestrator)</span><span class="chip v">VaultBus Protocol</span>
+        </div>
+      </div>
+      <div class="aa">&darr;</div>
+      <div class="al">
+        <div class="al-label" style="color:var(--green)">Memory</div>
+        <div class="al-chips">
+          <span class="chip g">Obsidian Vault</span><span class="chip g">Local Filesystem</span>
+          <!-- TODO: Add your memory layers (Notion, SQLite, etc.) -->
+        </div>
+      </div>
+      <div class="aa">&darr;</div>
+      <div class="al">
+        <div class="al-label" style="color:var(--gold)">Execution</div>
+        <div class="al-chips">
+          <span class="chip o">Watcher Bridge</span><span class="chip o">Git / GitHub</span>
+          <!-- TODO: Add your execution tools (Vercel, Cursor, etc.) -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SHARED MEMORY ═══════════ -->
+<section>
+  <div class="sl">Shared Memory</div>
+  <h2>How Agents Remember</h2>
+  <p class="sd">No agent starts from scratch. Context persists across sessions and versions through integrated memory systems.</p>
+
+  <div class="sg">
+    <div class="sc">
+      <span class="si">V</span>
+      <h3>Obsidian Vault</h3>
+      <p>Structured markdown files. BRAIN_INDEX as master registry. Handoff protocols, session histories, project notes, decision logs, security policies. The human-readable wiki that maps to everything.</p>
+    </div>
+    <div class="sc">
+      <span class="si">F</span>
+      <h3>Local Filesystem</h3>
+      <p>Shared mount on your desktop. All agents read and write here. Project folders, VaultBus inboxes, watcher bridge, code repos. The physical coordination layer.</p>
+    </div>
+    <!-- TODO: Add additional memory layers as needed -->
+    <div class="sc">
+      <span class="si">+</span>
+      <h3>[Additional Layer]</h3>
+      <p>[Describe any additional memory systems you use &mdash; Notion, SQLite, databases, etc.]</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ REAL EXAMPLE ═══════════ -->
+<section>
+  <div class="sl">In Practice</div>
+  <h2>A Real Request, Start to Finish</h2>
+  <p class="sd">Follow one task through the system to see how coordination, memory, and execution connect.</p>
+
+  <div class="ex">
+    <!-- TODO: Replace with a real example from your system -->
+    <div class="ex-title">"[Describe a real task you gave the system]"</div>
+    <div class="ex-sub">What actually happened &mdash; [Date]</div>
+
+    <div class="step">
+      <div class="step-dot" style="background:#c9a84c">1</div>
+      <div class="step-body">
+        <div class="step-who" style="color:#c9a84c">[Your Name]</div>
+        <div class="step-what">Tells the admin agent what they want. Touches no code.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:var(--accent)">2</div>
+      <div class="step-body">
+        <div class="step-who" style="color:var(--accent)">[Admin Agent]</div>
+        <div class="step-what">Creates a structured directive in the specialist agent's VaultBus inbox.</div>
+        <div class="step-how">Clear instructions, success criteria, priority level. The message waits &mdash; the agent doesn't need to be running yet.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#a78bfa">3</div>
+      <div class="step-body">
+        <div class="step-who" style="color:#a78bfa">VaultBus</div>
+        <div class="step-what">Routes the command to the correct project folder, tracks delivery state.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#c9a84c">4</div>
+      <div class="step-body">
+        <div class="step-who" style="color:#c9a84c">[Your Name]</div>
+        <div class="step-what">Boots the specialist agent (pastes boot prompt into a Cowork session).</div>
+        <div class="step-how">Agent reads BRAIN_INDEX, checks inbox, finds the task waiting.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:var(--green)">5</div>
+      <div class="step-body">
+        <div class="step-who" style="color:var(--green)">[Specialist Agent]</div>
+        <div class="step-what">Executes the task, verifies through the watcher bridge, updates status at every transition.</div>
+        <div class="step-how">[Describe what the agent actually did &mdash; code edits, deployments, file creation, etc.]</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:var(--accent)">6</div>
+      <div class="step-body">
+        <div class="step-who" style="color:var(--accent)">[Admin Agent]</div>
+        <div class="step-what">Sees the status change. Task complete. No relay needed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ UNDER THE HOOD ═══════════ -->
+<section>
+  <div class="sl">Under the Hood</div>
+  <h2>How the system actually works</h2>
+  <p class="sd">Plain English first. Click any "Technical details" section if you want to see exactly how it's built.</p>
+
+  <div class="how-section">
+    <div class="how-header">
+      <div class="how-number">1</div>
+      <div class="how-title">Every agent starts by reading the master index</div>
+    </div>
+    <p class="how-body">
+      There's a single document that tells every agent where everything is: which projects exist, who's working on what, where to find past work, and what rules to follow. When an agent starts a new session, it reads this index first. It never asks you for context it can find itself.
+    </p>
+    <details>
+      <summary>Technical details &rarr;</summary>
+      <div class="tech-content">
+        The master index is <code>BRAIN_INDEX.md</code>, a structured Markdown file in an Obsidian vault. It contains project locations, agent session registry, file paths to every key document, and 13 codified governance rules. Agents query specific files on demand rather than loading the entire vault.
+      </div>
+    </details>
+  </div>
+
+  <div class="how-section">
+    <div class="how-header">
+      <div class="how-number">2</div>
+      <div class="how-title">Agents coordinate through a structured message system</div>
+    </div>
+    <p class="how-body">
+      The admin agent sends instructions to other agents through a messaging system. Each agent has an inbox. Messages are tracked from creation through delivery to completion. If something gets stuck, the system flags it. There's a complete audit trail of every message ever sent.
+    </p>
+    <details>
+      <summary>Technical details &rarr;</summary>
+      <div class="tech-content">
+        The coordination protocol is called <code>VaultBus</code>. It has five layers: Status (each agent's current state), Commands (directives from admin to agents), Escalations (blockers needing attention), Events (append-only audit log), and Views (human-readable dashboards). Commands are immutable after creation. Messages follow a lifecycle state machine.
+      </div>
+    </details>
+  </div>
+
+  <div class="how-section">
+    <div class="how-header">
+      <div class="how-number">3</div>
+      <div class="how-title">Context survives forever through structured handoffs</div>
+    </div>
+    <p class="how-body">
+      AI conversations have a limit on how much they can hold in memory. When an agent approaches that limit, it writes a detailed handoff document &mdash; what it accomplished, what's still pending, what decisions were made, and exact next steps. The next version of that agent starts by reading the handoff and picks up exactly where the last one left off.
+    </p>
+    <details>
+      <summary>Technical details &rarr;</summary>
+      <div class="tech-content">
+        This is the <strong>Context Ceiling Protocol</strong>. Agents track their tool call count from session start. At 60 calls they enter "yellow zone" and notify the user. At 80 calls they hard-stop: checkpoint current task, update their VaultBus status file, write a structured handoff document, and update the session README. The handoff is then incorporated into the next version's boot prompt.
+      </div>
+    </details>
+  </div>
+
+  <div class="how-section">
+    <div class="how-header">
+      <div class="how-number">4</div>
+      <div class="how-title">Agents can take real actions on your computer</div>
+    </div>
+    <p class="how-body">
+      AI agents typically run in a sandbox &mdash; they can read and write files but can't actually do things like push code to GitHub or run a build process. A secure bridge lets agents send specific, pre-approved commands to your actual machine &mdash; all without you touching anything.
+    </p>
+    <details>
+      <summary>Technical details &rarr;</summary>
+      <div class="tech-content">
+        The optional bridge is called the <strong>Watcher</strong> &mdash; a Python script running in a terminal on the host machine. It polls a JSON inbox file for argv-only commands, asks the user to approve each command, executes only allowlisted commands, and writes redacted results to an outbox file.
+      </div>
+    </details>
+  </div>
+
+  <div class="how-section">
+    <div class="how-header">
+      <div class="how-number">5</div>
+      <div class="how-title">Quality is enforced through 13 governance rules</div>
+    </div>
+    <p class="how-body">
+      Every rule in the system exists because something went wrong without it. These aren't theoretical best practices. They're scar tissue turned into policy. As you run your own system, you'll develop your own rules alongside the starter set.
+    </p>
+    <details>
+      <summary>Technical details &rarr;</summary>
+      <div class="tech-content">
+        The 13 rules are codified in <code>BRAIN_INDEX.md</code> and enforced through boot prompts, handoff docs, and admin monitoring. Key examples: <strong>Rule 6</strong> &mdash; Create + Register is atomic (any new file must be registered in BRAIN_INDEX in the same action). <strong>Rule 10</strong> &mdash; Context Ceiling (hard stop at 80 tool calls, non-negotiable). <strong>Rule 12</strong> &mdash; Use Edit for existing files, not full rewrites (prevents invisible bugs). There's also a <strong>Vault Lint</strong> system that periodically scans the knowledge base for structural issues.
+      </div>
+    </details>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ GOVERNANCE ═══════════ -->
+<section>
+  <div class="sl">Governance</div>
+  <h2>Six Key Rules</h2>
+  <p class="sd">Part of a 13-rule framework. Each rule exists because something went wrong without it.</p>
+
+  <div class="pg">
+    <div class="pr">
+      <div class="pn">01</div>
+      <h3>Context Ceiling</h3>
+      <p>Every agent tracks tool call count. Yellow at 60, hard stop at 80. Agents write handoffs before they degrade &mdash; never after. No context is ever lost.</p>
+    </div>
+    <div class="pr">
+      <div class="pn">02</div>
+      <h3>Create + Register = Atomic</h3>
+      <p>Any new file must be registered in BRAIN_INDEX in the same action. If it's not indexed, it doesn't exist to the next agent.</p>
+    </div>
+    <div class="pr">
+      <div class="pn">03</div>
+      <h3>Zero Mechanical Work</h3>
+      <p>You make decisions. Everything operational &mdash; file management, deployments, coordination, monitoring &mdash; is the agents' problem.</p>
+    </div>
+    <div class="pr">
+      <div class="pn">04</div>
+      <h3>Versioned Handoffs</h3>
+      <p>When an agent hits its ceiling, it writes a structured handoff. The next version boots with full context. Knowledge compounds, never resets.</p>
+    </div>
+    <div class="pr">
+      <div class="pn">05</div>
+      <h3>Vault Lint</h3>
+      <p>Automated quality checks catch orphaned files, broken references, and contradictions. The knowledge base stays clean as it grows.</p>
+    </div>
+    <div class="pr">
+      <div class="pn">06</div>
+      <h3>Approved Local Execution</h3>
+      <p>Local commands are verified through the active lane. Cowork can use an approval-required watcher. Claude Code and Codex can run checks directly.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECURITY ═══════════ -->
+<section>
+  <div class="sl">Security &amp; Trust</div>
+  <h2>Hardened by Design</h2>
+  <p class="sd">The system is built with real security constraints, not afterthoughts.</p>
+
+  <div class="sg">
+    <div class="sc">
+      <h3>Approval-Required Watcher</h3>
+      <p>The public starter watcher accepts argv-only commands, uses a small allowlist, blocks dangerous patterns, and requires terminal approval before execution.</p>
+    </div>
+    <div class="sc">
+      <h3>Sandboxed Agents</h3>
+      <p>Each agent runs in an isolated environment. Can read/write shared files but cannot access the network, other sessions, or system resources directly.</p>
+    </div>
+    <div class="sc">
+      <h3>Immutable Commands</h3>
+      <p>VaultBus command files are immutable after creation (except status field). Full audit trail. No agent can edit another agent's status file.</p>
+    </div>
+    <div class="sc">
+      <h3>Credential Isolation</h3>
+      <p>API keys, tokens, and sensitive data stay in environment variables or Keychain. Never embed values in boot prompts, vault notes, or shared agent files.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ WHY THIS MATTERS ═══════════ -->
+<section>
+  <div class="sl">Why This Matters</div>
+  <h2>This isn't what you've seen before</h2>
+  <p class="sd">Every week there's a new "AI agent" demo. Most of them book flights, send emails, and break after three steps. This is something fundamentally different.</p>
+
+  <div class="diff-grid">
+    <div class="diff-card">
+      <div class="dtag">Not Automation</div>
+      <h3>Creative reasoning, not task execution</h3>
+      <p>These agents don't fill out forms. They make design decisions, synthesize information, and exercise judgment. This is reasoning work, not button-pressing.</p>
+    </div>
+    <div class="diff-card">
+      <div class="dtag">Not Ephemeral</div>
+      <h3>Accumulated context over time</h3>
+      <p>Most AI conversations last one session. These agents inherit context from every previous version. Nothing is ever lost. The system gets smarter over time.</p>
+    </div>
+    <div class="diff-card">
+      <div class="dtag">Not Fragile</div>
+      <h3>Governance that prevents degradation</h3>
+      <p>AI agents degrade when they run too long. The Context Ceiling Protocol is enforced as law. Every failure encountered becomes a rule. The system hardens itself.</p>
+    </div>
+    <div class="diff-card">
+      <div class="dtag">Not Narrow</div>
+      <h3>Multiple domains, one system</h3>
+      <p>The coordination patterns are domain-agnostic. If you can describe the work, you can build an agent for it.</p>
+    </div>
+    <div class="diff-card">
+      <div class="dtag">Not Theoretical</div>
+      <h3>Built to run in production</h3>
+      <p>This framework has been used in real production across multiple projects. It's battle-tested infrastructure, not a proof of concept.</p>
+    </div>
+    <div class="diff-card">
+      <div class="dtag">Not Dependent</div>
+      <h3>Built on standard tools, no proprietary lock-in</h3>
+      <p>Obsidian, Python, GitHub. No custom cloud infrastructure. No expensive APIs. The entire system runs on a desktop with a mounted folder. Portable, reproducible, and affordable.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ ROADMAP ═══════════ -->
+<section>
+  <div class="sl">What's Next</div>
+  <h2>Roadmap</h2>
+  <p class="sd">Evolving from isolated sessions toward a fully orchestrated agent environment.</p>
+
+  <!-- TODO: Replace with your actual roadmap -->
+  <div class="rm">
+    <div class="ri done">
+      <div class="rp">Complete</div>
+      <div class="rt">Multi-Agent Foundation</div>
+      <div class="rd">Specialist agents, shared Obsidian vault, VaultBus protocol, structured handoffs, governance rules. Initial sessions run successfully.</div>
+    </div>
+    <div class="ri active">
+      <div class="rp">In Progress</div>
+      <div class="rt">[Current Phase]</div>
+      <div class="rd">[Describe what you're currently building or improving.]</div>
+    </div>
+    <div class="ri">
+      <div class="rp">Next</div>
+      <div class="rt">[Next Phase]</div>
+      <div class="rd">[Describe your next major milestone.]</div>
+    </div>
+    <div class="ri">
+      <div class="rp">Future</div>
+      <div class="rt">[Future Vision]</div>
+      <div class="rd">[Describe your long-term vision for the system.]</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ CTA ═══════════ -->
+<div class="cta">
+  <!-- TODO: Update heading, description, and link -->
+  <h2>Built with Agent OS</h2>
+  <p>The open-source framework for running multiple AI agents with persistent memory and structured coordination.</p>
+  <a class="cta-btn" href="https://github.com/YOUR_USERNAME/YOUR_REPO">View the Kit on GitHub &rarr;</a>
+</div>
+
+</body>
+</html>

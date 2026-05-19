@@ -1,0 +1,29 @@
+# Internal planning documents (contain real vault data)
+VAULT_CROSS_REFERENCE.md
+
+# User-generated secrets (created during setup — never commit these)
+vault/01 — Security/watcher_token.md
+.env
+.env.*
+
+# Generated reports
+vault/04 — Operations/lint-reports/latest_lint.md
+.agent-os-retrieval/
+
+# Watcher runtime artifacts (may contain command output)
+_cowork_inbox.json
+_cowork_outbox.json
+_cowork_watcher.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+__pycache__/
+push_simulator.py

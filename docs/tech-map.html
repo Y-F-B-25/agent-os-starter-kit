@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent OS Builder Tech Map</title>
+<style>
+  :root {
+    --bg: #090a0f;
+    --surface: #11131c;
+    --surface-2: #171a25;
+    --border: #2a3144;
+    --text: #f0f3f8;
+    --muted: #99a3b8;
+    --dim: #6f7a91;
+    --blue: #4a9eff;
+    --green: #00d4aa;
+    --gold: #ffd166;
+    --pink: #f472b6;
+    --red: #ff6b6b;
+    --shadow: 0 20px 70px rgba(0, 0, 0, 0.34);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 16% 8%, rgba(74, 158, 255, 0.13), transparent 30rem),
+      radial-gradient(circle at 82% 0%, rgba(0, 212, 170, 0.1), transparent 28rem),
+      var(--bg);
+    color: var(--text);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  .page {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 36px 0 48px;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 24px;
+    align-items: stretch;
+    margin-bottom: 22px;
+  }
+
+  .hero-main,
+  .hero-side {
+    min-width: 0;
+    background: rgba(17, 19, 28, 0.9);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .hero-main {
+    padding: 28px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--green);
+    box-shadow: 0 0 18px rgba(0, 212, 170, 0.8);
+  }
+
+  h1 {
+    margin: 0 0 12px;
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.02;
+    letter-spacing: 0;
+  }
+
+  .lede {
+    margin: 0;
+    max-width: 760px;
+    color: var(--muted);
+    font-size: 16px;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-side {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 18px;
+  }
+
+  .side-label {
+    color: var(--dim);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .legend {
+    display: grid;
+    gap: 10px;
+  }
+
+  .legend-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    flex: 0 0 auto;
+  }
+
+  .dot.blue { background: var(--blue); }
+  .dot.green { background: var(--green); }
+  .dot.gold { background: var(--gold); }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 18px;
+  }
+
+  .control-btn {
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 9px;
+    padding: 9px 12px;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .control-btn:hover,
+  .control-btn:focus-visible {
+    color: var(--text);
+    border-color: var(--blue);
+    outline: none;
+  }
+
+  .layers {
+    display: grid;
+    gap: 16px;
+  }
+
+  .layer {
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(17, 19, 28, 0.92);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .layer[data-tone="blue"] { --tone: var(--blue); --tone-soft: rgba(74, 158, 255, 0.12); }
+  .layer[data-tone="green"] { --tone: var(--green); --tone-soft: rgba(0, 212, 170, 0.12); }
+  .layer[data-tone="gold"] { --tone: var(--gold); --tone-soft: rgba(255, 209, 102, 0.12); }
+
+  .layer-toggle {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+    text-align: left;
+    padding: 18px 20px;
+    border: 0;
+    background: linear-gradient(90deg, var(--tone-soft), transparent);
+    cursor: pointer;
+  }
+
+  .layer-toggle:hover,
+  .layer-toggle:focus-visible {
+    outline: none;
+    background: linear-gradient(90deg, var(--tone-soft), rgba(255, 255, 255, 0.03));
+  }
+
+  .layer-num {
+    width: 40px;
+    height: 40px;
+    border: 1px solid color-mix(in srgb, var(--tone), white 12%);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: var(--tone);
+    font-size: 14px;
+    font-weight: 900;
+    background: rgba(0, 0, 0, 0.18);
+  }
+
+  .layer-title {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .layer-desc {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .chevron {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    color: var(--tone);
+    background: rgba(255, 255, 255, 0.05);
+    transition: transform 160ms ease;
+  }
+
+  .layer.is-open .chevron { transform: rotate(90deg); }
+
+  .layer-body {
+    display: none;
+    padding: 0 18px 18px;
+  }
+
+  .layer.is-open .layer-body { display: block; }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .concept {
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: var(--surface-2);
+    overflow: hidden;
+  }
+
+  .concept-toggle {
+    width: 100%;
+    min-height: 86px;
+    border: 0;
+    background: transparent;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+    padding: 15px;
+    cursor: pointer;
+  }
+
+  .concept-toggle:hover,
+  .concept-toggle:focus-visible {
+    outline: none;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .concept h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .concept p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+  }
+
+  .pill {
+    flex: 0 0 auto;
+    border: 1px solid color-mix(in srgb, var(--tone), white 10%);
+    color: var(--tone);
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .cheat {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 14px 15px 15px;
+    background: rgba(0, 0, 0, 0.14);
+  }
+
+  .concept.is-open .cheat { display: block; }
+
+  .cheat dl {
+    margin: 0;
+    display: grid;
+    gap: 9px;
+  }
+
+  .cheat dt {
+    margin: 0 0 2px;
+    color: var(--tone);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cheat dd {
+    margin: 0;
+    color: #cbd3e2;
+    font-size: 12px;
+  }
+
+  code {
+    display: inline-block;
+    max-width: 100%;
+    padding: 2px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.24);
+    color: #f8fafc;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 11px;
+    overflow-wrap: anywhere;
+  }
+
+  .footer-note {
+    margin-top: 18px;
+    color: var(--dim);
+    font-size: 12px;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 620px) {
+    .page { width: min(1180px, calc(100% - 22px)); padding-top: 18px; }
+    .hero-main { padding: 22px; }
+    .hero-side { padding: 20px; }
+    .layer-toggle {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      padding: 16px;
+    }
+    .layer-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+    }
+    .chevron {
+      grid-column: auto;
+      width: 30px;
+      height: 30px;
+    }
+    .concept-grid { grid-template-columns: 1fr; }
+    .concept-toggle {
+      min-height: auto;
+      padding: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero-main">
+      <div class="eyebrow">Agent OS learning map</div>
+      <h1 id="page-title">Agent OS Builder Tech Map</h1>
+      <p class="lede">A practical map of the languages, tools, and infrastructure ideas that show up when building with agents. Open a layer, click a concept, and screenshot the pieces that help your storyboard.</p>
+    </div>
+    <aside class="hero-side" aria-label="How to read this map">
+      <div>
+        <div class="side-label">How to read it</div>
+        <div class="legend" aria-hidden="true">
+          <div class="legend-row"><span class="dot blue"></span><span>Languages are the raw material.</span></div>
+          <div class="legend-row"><span class="dot green"></span><span>Tools turn code into workflows.</span></div>
+          <div class="legend-row"><span class="dot gold"></span><span>Infrastructure keeps it running safely.</span></div>
+        </div>
+      </div>
+      <div class="side-label">Click cards for cheat sheets</div>
+    </aside>
+  </section>
+
+  <div class="controls" aria-label="Storyboard controls">
+    <button class="control-btn" type="button" id="expandAll">Expand all</button>
+    <button class="control-btn" type="button" id="collapseAll">Collapse all</button>
+  </div>
+
+  <section class="layers" id="layers" aria-label="Tech concept layers"></section>
+
+  <p class="footer-note">Built as a static storyboard aid. No external scripts, no build step, no tracking.</p>
+</main>
+
+<script>
+const layers = [
+  {
+    number: "01",
+    tone: "blue",
+    title: "Foundational Languages",
+    desc: "The basic ways you tell computers what to do.",
+    items: [
+      {
+        name: "Bash",
+        tag: "shell",
+        summary: "Run commands and glue local tools together.",
+        what: "Bash is the language of the terminal. It runs commands, moves files, starts scripts, and chains small tools.",
+        why: "Agent OS uses Bash for local checks, setup scripts, watcher commands, and quick diagnostics.",
+        example: "ls docs && python3 script.py",
+        learn: "Paths, quoting, pipes, redirects, and environment variables.",
+        mistake: "Forgetting quotes around file paths with spaces."
+      },
+      {
+        name: "Python",
+        tag: "scripts",
+        summary: "Write small reliable programs and automation.",
+        what: "Python is a readable programming language that is strong for scripts, file processing, data checks, and simple services.",
+        why: "Agent OS uses Python for retrieval, linting, credential scans, progress files, and one-off automation.",
+        example: "python3 Operations/retrieval/vault_search.py query",
+        learn: "Files, JSON, functions, virtual environments, and standard library tools.",
+        mistake: "Installing packages globally without knowing which Python is running."
+      },
+      {
+        name: "TypeScript",
+        tag: "apps",
+        summary: "JavaScript with types for safer interfaces.",
+        what: "TypeScript is JavaScript plus type checks. It helps larger frontends and APIs stay understandable.",
+        why: "Agent dashboard apps use typed data shapes so agents, dashboards, and project boards agree on fields.",
+        example: "type Agent = { id: string; name: string }",
+        learn: "Objects, arrays, props, async functions, and basic type aliases.",
+        mistake: "Treating types as runtime validation. Types help before code runs."
+      },
+      {
+        name: "HTML and CSS",
+        tag: "ui",
+        summary: "Structure and style pages people can read.",
+        what: "HTML defines the content. CSS controls layout, spacing, color, and responsive behavior.",
+        why: "Agent OS uses HTML artifacts for diagrams, onboarding explainers, dashboard mockups, and screenshot-ready maps.",
+        example: "<section class=\"card\">...</section>",
+        learn: "Semantic tags, grid, flexbox, responsive sizing, and readable typography.",
+        mistake: "Using giant text or fixed widths that break on mobile."
+      },
+      {
+        name: "SQL",
+        tag: "data",
+        summary: "Ask structured questions of tables.",
+        what: "SQL is a query language for databases. It filters, joins, counts, and retrieves stored records.",
+        why: "Retrieval systems and dashboards often store metadata in SQLite so agents can ask precise questions.",
+        example: "select title from docs where tag = 'security';",
+        learn: "Tables, select, where, order by, joins, and indexes.",
+        mistake: "Thinking SQL is only for huge apps. SQLite is useful for small local systems too."
+      },
+      {
+        name: "JSON",
+        tag: "state",
+        summary: "A simple format for structured data.",
+        what: "JSON stores objects, arrays, strings, numbers, booleans, and null in a format most languages can read.",
+        why: "Agent OS uses JSON for progress files, project boards, snapshots, settings, and message records.",
+        example: "{\"status\":\"in-flight\",\"owner\":\"codex\"}",
+        learn: "Objects, arrays, commas, quotes, and validation.",
+        mistake: "Leaving trailing commas or comments in JSON files."
+      },
+      {
+        name: "YAML and TOML",
+        tag: "config",
+        summary: "Human-readable formats for settings and manifests.",
+        what: "YAML and TOML are structured text formats often used for config files, automation settings, and project metadata.",
+        why: "Agent OS uses config files to tell agents what to load, which hooks run, and how services should behave.",
+        example: "status: ACTIVE",
+        learn: "Indentation, quotes, arrays, comments, and how each format handles nesting.",
+        mistake: "Breaking YAML with one invisible indentation mistake."
+      },
+      {
+        name: "Regex",
+        tag: "patterns",
+        summary: "Search for text by pattern instead of exact words.",
+        what: "Regex is a compact pattern language for finding strings that match a shape, not just one literal phrase.",
+        why: "Agent OS uses regex-style searches for lint, secret scans, log inspection, and fast vault lookups.",
+        example: "rg \"API_KEY|TOKEN|SECRET\"",
+        learn: "Literal text, alternation, character classes, anchors, and escaping.",
+        mistake: "Writing a pattern so broad it finds noise instead of signal."
+      }
+    ]
+  },
+  {
+    number: "02",
+    tone: "green",
+    title: "Tools and Frameworks",
+    desc: "The pieces that turn code into repeatable work.",
+    items: [
+      {
+        name: "CLI",
+        tag: "control",
+        summary: "Use tools through typed commands.",
+        what: "A CLI is a command-line interface. It lets you run a tool by typing commands, flags, and arguments.",
+        why: "Agent OS relies on CLIs for Git, Codex, Claude Code, retrieval, linting, browser checks, and local service control.",
+        example: "git status --short",
+        learn: "Commands, flags, arguments, stdin, stdout, stderr, and exit codes.",
+        mistake: "Running the right command from the wrong folder."
+      },
+      {
+        name: "MCP",
+        tag: "tools",
+        summary: "Give models structured access to tools and context.",
+        what: "MCP is a protocol that lets an AI client connect to tool servers, data sources, and reusable resources in a structured way.",
+        why: "Agent OS can use MCP-style access for vault search, browser tools, docs, calendars, and other controlled capabilities.",
+        example: "vault.search(\"website design\")",
+        learn: "Servers, tools, resources, permissions, schemas, and where data is allowed to flow.",
+        mistake: "Treating MCP like magic instead of a specific tool server with boundaries."
+      },
+      {
+        name: "cron",
+        tag: "schedule",
+        summary: "Run jobs on a clock.",
+        what: "cron is a scheduler. It runs commands at set times like daily scans or weekly reports.",
+        why: "Agent OS can use scheduled routines for lint, backups, security checks, and recurring health reports.",
+        example: "0 9 * * * python3 daily_check.py",
+        learn: "Cron timing fields, logs, working directories, and environment differences.",
+        mistake: "Assuming cron has the same environment as your terminal."
+      },
+      {
+        name: "Daemons",
+        tag: "always on",
+        summary: "Background processes that keep serving.",
+        what: "A daemon is a program that runs in the background, often started automatically by the operating system.",
+        why: "Agent OS can use daemon-style services to watch files, serve health checks, and update local dashboards.",
+        example: "launchctl kickstart gui/$UID/com.example.agent-dashboard",
+        learn: "Start, stop, logs, restart behavior, and service config files.",
+        mistake: "Debugging only the code and forgetting the service manager."
+      },
+      {
+        name: "React",
+        tag: "frontend",
+        summary: "Build dynamic interfaces from components.",
+        what: "React is a frontend library for building user interfaces from reusable components and state.",
+        why: "A live agent dashboard benefits from React because messages, agent status, and project boards update together.",
+        example: "function Card({ title }) { return <h3>{title}</h3>; }",
+        learn: "Components, props, state, effects, and rendering lists.",
+        mistake: "Adding React when static HTML would do the job."
+      },
+      {
+        name: "cURL",
+        tag: "http",
+        summary: "Call web APIs from the terminal.",
+        what: "cURL sends HTTP requests. It is a quick way to test endpoints, post messages, and inspect API responses.",
+        why: "Agents use cURL to post to group chat, verify local services, and smoke test API routes.",
+        example: "curl -s http://localhost:3000/health",
+        learn: "GET, POST, headers, JSON bodies, and status codes.",
+        mistake: "Forgetting content-type headers when sending JSON."
+      },
+      {
+        name: "Git",
+        tag: "history",
+        summary: "Track file changes over time.",
+        what: "Git records versions of files. It lets you compare changes, branch work, and revert deliberate edits.",
+        why: "Agent OS repos need clean change history so agents can review what changed and ship safely.",
+        example: "git status --short",
+        learn: "Status, diff, add, commit, branch, and remote basics.",
+        mistake: "Committing secrets or generated junk because status was not checked first."
+      },
+      {
+        name: "APIs",
+        tag: "bridge",
+        summary: "Structured ways for systems to talk.",
+        what: "An API is a contract for requesting or sending data between programs.",
+        why: "Group chat, dashboards, retrieval, Notion, media tools, and model providers all depend on clear API contracts.",
+        example: "POST /api/tasks { \"owner\": \"codex\", \"title\": \"...\" }",
+        learn: "Endpoints, payloads, auth, response shapes, and errors.",
+        mistake: "Treating API output as always correct or always available."
+      },
+      {
+        name: "Webhooks",
+        tag: "events",
+        summary: "Let one system trigger another when something happens.",
+        what: "A webhook is an HTTP message sent automatically after an event, like a new form submission or repo update.",
+        why: "Agent OS can use webhooks to turn outside events into inbox notes, dashboard updates, or agent work items.",
+        example: "POST /hooks/new-idea",
+        learn: "Events, payloads, signatures, retries, and idempotency.",
+        mistake: "Trusting incoming webhook data without verifying where it came from."
+      },
+      {
+        name: "Vector Retrieval",
+        tag: "memory",
+        summary: "Find meaning, not just exact words.",
+        what: "Vector retrieval turns text into embeddings so a search can find related ideas even when the exact words differ.",
+        why: "Agent OS uses retrieval so agents can find the right vault notes, project history, and prior decisions without bulk-reading everything.",
+        example: "retrieve(\"what did we decide about onboarding?\")",
+        learn: "Chunks, embeddings, indexes, metadata, and reranking.",
+        mistake: "Assuming retrieval is perfect memory instead of a ranked guess that still needs verification."
+      },
+      {
+        name: "Package Managers",
+        tag: "deps",
+        summary: "Install and pin project dependencies.",
+        what: "Package managers install libraries and track exact versions so projects can run again later.",
+        why: "Agent OS tools may use npm, pip, or other managers for frontends, retrieval libraries, and scripts.",
+        example: "npm install && npm run dev",
+        learn: "Lockfiles, versions, scripts, virtual environments, and dependency updates.",
+        mistake: "Changing dependencies without testing the app after install."
+      }
+    ]
+  },
+  {
+    number: "03",
+    tone: "gold",
+    title: "Infrastructure and Security",
+    desc: "The context that keeps systems understandable, stable, and safe.",
+    items: [
+      {
+        name: "Linux",
+        tag: "runtime",
+        summary: "The operating system shape behind many servers.",
+        what: "Linux is a family of operating systems used on servers and many developer machines. macOS shares similar Unix ideas.",
+        why: "Agent OS work often uses Unix-style paths, processes, shells, permissions, and background jobs.",
+        example: "ps aux | grep python",
+        learn: "Filesystems, processes, shells, users, and logs.",
+        mistake: "Copying commands without understanding the current directory."
+      },
+      {
+        name: "Environment Variables",
+        tag: "config",
+        summary: "Pass config without hardcoding it.",
+        what: "Environment variables are key-value settings available to a process when it starts.",
+        why: "Agent OS stores tool config and credentials outside code so scripts can read them safely.",
+        example: "python3 render.py with RUNWAY_API_KEY set in the shell",
+        learn: "Exporting variables, process scope, shell profiles, and service environments.",
+        mistake: "Assuming a daemon sees variables from your interactive shell."
+      },
+      {
+        name: "Keychain",
+        tag: "secrets",
+        summary: "A safer place to store local secrets.",
+        what: "Keychain stores secrets in the operating system instead of plain text files.",
+        why: "Agent OS can use Keychain so agents call tools like Runway or Luma without copying secret values into prompts.",
+        example: "security find-generic-password -s SERVICE -w",
+        learn: "Service names, account names, access prompts, and env fallback patterns.",
+        mistake: "Printing secret values while debugging."
+      },
+      {
+        name: "File Permissions",
+        tag: "access",
+        summary: "Control who can read or write files.",
+        what: "Permissions decide which users and processes can read, write, or execute a file.",
+        why: "Vaults, configs, scripts, and local keys need correct permissions to avoid leaks or broken tools.",
+        example: "chmod 600 local_config",
+        learn: "Read, write, execute, owner, group, and basic chmod.",
+        mistake: "Making files globally readable to fix an access error quickly."
+      },
+      {
+        name: "Networking Basics",
+        tag: "local web",
+        summary: "How local services and web requests connect.",
+        what: "Networking covers addresses, ports, protocols, and how one program reaches another.",
+        why: "Dashboards, local APIs, and retrieval services often run on localhost ports.",
+        example: "http://localhost:3000/health",
+        learn: "localhost, ports, HTTP, firewalls, and status codes.",
+        mistake: "Confusing a server not running with a broken frontend."
+      },
+      {
+        name: "Credential Hygiene",
+        tag: "safety",
+        summary: "Keep secrets out of places agents and repos expose.",
+        what: "Credential hygiene is the habit of never writing secret values into code, vault notes, chat, or commits.",
+        why: "Agent OS has many agents reading shared files. One leaked token can spread fast if the rules are loose.",
+        example: "Use [REDACTED] in docs, never the real value.",
+        learn: "Redaction, scanning, rotation, least privilege, and safe logs.",
+        mistake: "Pasting a key into a prompt because it feels temporary."
+      },
+      {
+        name: "OAuth and Scopes",
+        tag: "access",
+        summary: "Grant limited permission to connected tools.",
+        what: "OAuth is a common way to let an app access another service without sharing the raw password. Scopes define what it can do.",
+        why: "Agent OS connects to tools like Notion, Google, GitHub, and media platforms, so scoped access matters.",
+        example: "scope: read:docs",
+        learn: "Consent screens, tokens, refresh, scopes, revocation, and least privilege.",
+        mistake: "Granting broad access because it is faster than choosing the narrow scope."
+      },
+      {
+        name: "Logs",
+        tag: "debug",
+        summary: "See what a system actually did.",
+        what: "Logs are timestamped records from apps, scripts, daemons, and agents.",
+        why: "Agent OS uses logs to debug broken services, stale dashboards, failed hooks, and background jobs.",
+        example: "tail -f command-center.log",
+        learn: "Timestamps, levels, stack traces, request ids, and where each service writes logs.",
+        mistake: "Logging secret values while trying to debug a credential issue."
+      },
+      {
+        name: "Sandboxes",
+        tag: "limits",
+        summary: "Constrain what an agent or tool can touch.",
+        what: "A sandbox limits file, network, or command access so a task has boundaries.",
+        why: "Agent OS should use sandboxes and approvals to separate safe reading, code edits, web access, and credential-sensitive work.",
+        example: "sandbox: read-only",
+        learn: "Read limits, write limits, network access, approvals, and escape risks.",
+        mistake: "Assuming a sandbox replaces review, tests, or secret hygiene."
+      }
+    ]
+  }
+];
+
+const layerRoot = document.getElementById("layers");
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function conceptTemplate(item) {
+  return `
+    <article class="concept">
+      <button class="concept-toggle" type="button" aria-expanded="false">
+        <span>
+          <h3>${item.name}</h3>
+          <p>${item.summary}</p>
+        </span>
+        <span class="pill">${item.tag}</span>
+      </button>
+      <div class="cheat">
+        <dl>
+          <div><dt>What it is</dt><dd>${item.what}</dd></div>
+          <div><dt>Why it matters</dt><dd>${item.why}</dd></div>
+          <div><dt>Tiny example</dt><dd><code>${escapeHtml(item.example)}</code></dd></div>
+          <div><dt>Learn first</dt><dd>${item.learn}</dd></div>
+          <div><dt>Beginner mistake</dt><dd>${item.mistake}</dd></div>
+        </dl>
+      </div>
+    </article>
+  `;
+}
+
+function renderLayers() {
+  layerRoot.innerHTML = layers.map((layer, index) => `
+    <article class="layer ${index === 0 ? "is-open" : ""}" data-tone="${layer.tone}">
+      <button class="layer-toggle" type="button" aria-expanded="${index === 0 ? "true" : "false"}">
+        <span class="layer-num">${layer.number}</span>
+        <span>
+          <h2 class="layer-title">${layer.title}</h2>
+          <p class="layer-desc">${layer.desc}</p>
+        </span>
+        <span class="chevron">›</span>
+      </button>
+      <div class="layer-body">
+        <div class="concept-grid">
+          ${layer.items.map(conceptTemplate).join("")}
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+function setLayer(layer, open) {
+  layer.classList.toggle("is-open", open);
+  const button = layer.querySelector(".layer-toggle");
+  button.setAttribute("aria-expanded", String(open));
+}
+
+function setConcept(concept, open) {
+  concept.classList.toggle("is-open", open);
+  const button = concept.querySelector(".concept-toggle");
+  button.setAttribute("aria-expanded", String(open));
+}
+
+renderLayers();
+
+document.addEventListener("click", (event) => {
+  const layerButton = event.target.closest(".layer-toggle");
+  if (layerButton) {
+    const layer = layerButton.closest(".layer");
+    setLayer(layer, !layer.classList.contains("is-open"));
+    return;
+  }
+
+  const conceptButton = event.target.closest(".concept-toggle");
+  if (conceptButton) {
+    const concept = conceptButton.closest(".concept");
+    setConcept(concept, !concept.classList.contains("is-open"));
+  }
+});
+
+document.getElementById("expandAll").addEventListener("click", () => {
+  document.querySelectorAll(".layer").forEach((layer) => setLayer(layer, true));
+  document.querySelectorAll(".concept").forEach((concept) => setConcept(concept, true));
+});
+
+document.getElementById("collapseAll").addEventListener("click", () => {
+  document.querySelectorAll(".concept").forEach((concept) => setConcept(concept, false));
+  document.querySelectorAll(".layer").forEach((layer, index) => setLayer(layer, index === 0));
+});
+</script>
+</body>
+</html>

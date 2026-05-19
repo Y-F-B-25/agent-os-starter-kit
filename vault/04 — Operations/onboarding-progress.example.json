@@ -1,0 +1,192 @@
+{
+  "$schema": "agent-os-onboarding-progress-v2",
+  "session_id": "replace-with-uuid",
+  "created": "replace-with-iso-timestamp",
+  "last_updated": "replace-with-iso-timestamp",
+  "source": "standalone",
+  "setup_lane": "cowork",
+  "diagnostic": {
+    "profile": "Organizer",
+    "primary_goal": "Set up a small AI team with shared memory.",
+    "current_ai_use": ["chat"],
+    "os": "mac",
+    "preferred_lane": "chat_first",
+    "memory_state": {
+      "obsidian": "fresh",
+      "notion": "not_installed",
+      "project_folder": "new"
+    },
+    "risk_constraints": ["Do not store credentials or private client data."],
+    "success_test": "A Chief of Staff can read the vault and explain the next action."
+  },
+  "team": {
+    "lead_agent": "Chief of Staff",
+    "specialist_agents": ["Project Agent"],
+    "ownership_notes": "Lead agent owns coordination. Specialist owns the first project lane."
+  },
+  "syllabus": {
+    "estimated_minutes": 90,
+    "quests": [
+      {
+        "id": "Q0",
+        "name": "Plan and dashboard",
+        "description": "Confirm lane, write progress file, and create the local HTML dashboard preview.",
+        "estimated_minutes": 5,
+        "status": "not_started",
+        "started_at": null,
+        "completed_at": null,
+        "actual_minutes": 0,
+        "difficulty_rating": null,
+        "check_in": {"question": "Did this direction make sense?", "response": "", "note": null},
+        "friction": {"category": null, "note": null, "resolved": true},
+        "retry_count": 0,
+        "magic_moment": null
+      },
+      {
+        "id": "Q1",
+        "name": "Vault foundation",
+        "description": "Create or verify vault folders, BRAIN_INDEX, and session registry.",
+        "estimated_minutes": 15,
+        "status": "not_started",
+        "started_at": null,
+        "completed_at": null,
+        "actual_minutes": 0,
+        "difficulty_rating": null,
+        "check_in": {"question": "Can you find the vault folders?", "response": "", "note": null},
+        "friction": {"category": null, "note": null, "resolved": true},
+        "retry_count": 0,
+        "magic_moment": null
+      },
+      {
+        "id": "Q2",
+        "name": "Coordination layer",
+        "description": "Create VaultBus status, command, escalation, and event folders.",
+        "estimated_minutes": 10,
+        "status": "not_started",
+        "started_at": null,
+        "completed_at": null,
+        "actual_minutes": 0,
+        "difficulty_rating": null,
+        "check_in": {"question": "Can you see how agents will coordinate?", "response": "", "note": null},
+        "friction": {"category": null, "note": null, "resolved": true},
+        "retry_count": 0,
+        "magic_moment": null
+      },
+      {
+        "id": "Q3",
+        "name": "Dashboard",
+        "description": "Update the local HTML dashboard and optionally create a Notion hub.",
+        "estimated_minutes": 10,
+        "status": "not_started",
+        "started_at": null,
+        "completed_at": null,
+        "actual_minutes": 0,
+        "difficulty_rating": null,
+        "check_in": {"question": "Can you see your setup progress?", "response": "", "note": null},
+        "friction": {"category": null, "note": null, "resolved": true},
+        "retry_count": 0,
+        "magic_moment": null
+      },
+      {
+        "id": "Q4",
+        "name": "Chief of Staff",
+        "description": "Write the first admin or Chief of Staff boot prompt.",
+        "estimated_minutes": 15,
+        "status": "not_started",
+        "started_at": null,
+        "completed_at": null,
+        "actual_minutes": 0,
+        "difficulty_rating": null,
+        "check_in": {"question": "Would you know how to start the Chief of Staff?", "response": "", "note": null},
+        "friction": {"category": null, "note": null, "resolved": true},
+        "retry_count": 0,
+        "magic_moment": null
+      },
+      {
+        "id": "Q5",
+        "name": "Specialist agent",
+        "description": "Write one specialist boot prompt based on the diagnostic.",
+        "estimated_minutes": 10,
+        "status": "not_started",
+        "started_at": null,
+        "completed_at": null,
+        "actual_minutes": 0,
+        "difficulty_rating": null,
+        "check_in": {"question": "Does this specialist fit the first project?", "response": "", "note": null},
+        "friction": {"category": null, "note": null, "resolved": true},
+        "retry_count": 0,
+        "magic_moment": null
+      },
+      {
+        "id": "Q6",
+        "name": "Handoff loop",
+        "description": "Run save-up, handoff, and reboot test.",
+        "estimated_minutes": 15,
+        "status": "not_started",
+        "started_at": null,
+        "completed_at": null,
+        "actual_minutes": 0,
+        "difficulty_rating": null,
+        "check_in": {"question": "Can a new session resume from the handoff?", "response": "", "note": null},
+        "friction": {"category": null, "note": null, "resolved": true},
+        "retry_count": 0,
+        "magic_moment": null
+      },
+      {
+        "id": "Q7",
+        "name": "Quality checks",
+        "description": "Run Vault Lint and onboarding eval.",
+        "estimated_minutes": 10,
+        "status": "not_started",
+        "started_at": null,
+        "completed_at": null,
+        "actual_minutes": 0,
+        "difficulty_rating": null,
+        "check_in": {"question": "Do the checks make sense?", "response": "", "note": null},
+        "friction": {"category": null, "note": null, "resolved": true},
+        "retry_count": 0,
+        "magic_moment": null
+      },
+      {
+        "id": "Q8",
+        "name": "Optional power tools",
+        "description": "Add retrieval, watcher, security sweep, recursive eval loop, automations, or blended second lane.",
+        "estimated_minutes": 20,
+        "status": "not_started",
+        "started_at": null,
+        "completed_at": null,
+        "actual_minutes": 0,
+        "difficulty_rating": null,
+        "check_in": {"question": "Which optional tools are worth adding now?", "response": "", "note": null},
+        "friction": {"category": null, "note": null, "resolved": true},
+        "retry_count": 0,
+        "magic_moment": null
+      }
+    ]
+  },
+  "eval": {
+    "quests_completed": 0,
+    "quests_total": 9,
+    "total_time_minutes": 0,
+    "sessions_count": 1,
+    "current_session_started": null,
+    "handoff_test": "not_run",
+    "vault_lint": "not_run",
+    "security_review": "not_run",
+    "graduation": {
+      "achieved": false,
+      "timestamp": null,
+      "success_test_met": null,
+      "user_sentiment": null,
+      "recommend_score": null
+    }
+  },
+  "eval_baseline": {
+    "agent_setup": 2,
+    "memory_management": 2,
+    "multi_agent_handoff": 1,
+    "prompt_engineering": 2,
+    "system_design": 1,
+    "local_tooling": 2
+  }
+}

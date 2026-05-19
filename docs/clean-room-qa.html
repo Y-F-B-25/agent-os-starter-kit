@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent OS Clean-Room QA Map</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #142024;
+      --muted: #5e6c70;
+      --line: #d7ded9;
+      --paper: #f7f5ee;
+      --panel: #ffffff;
+      --blue: #1d5c83;
+      --teal: #0f766e;
+      --gold: #a16207;
+      --red: #b42318;
+      --green: #166534;
+      --slate: #263238;
+      --shadow: 0 16px 36px rgba(20, 32, 36, 0.08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(247, 245, 238, 0.95);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 12px 28px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 240px;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      border: 1px solid #a9b6b0;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--panel);
+      color: var(--teal);
+      font-weight: 800;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #223036;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+      line-height: 1;
+      box-shadow: 0 4px 12px rgba(20, 32, 36, 0.04);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 24px;
+      padding: 30px 0 18px;
+      align-items: stretch;
+    }
+
+    .hero-copy {
+      padding: 22px 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 68px);
+      line-height: 0.95;
+      letter-spacing: 0;
+      max-width: 780px;
+    }
+
+    .lede {
+      margin: 18px 0 0;
+      color: #304247;
+      font-size: 18px;
+      line-height: 1.55;
+      max-width: 760px;
+    }
+
+    .hero-board {
+      background: var(--slate);
+      color: white;
+      border-radius: 8px;
+      min-height: 360px;
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      box-shadow: var(--shadow);
+    }
+
+    .board-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      color: #d6dfdf;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      align-content: center;
+      padding: 18px 0;
+    }
+
+    .node {
+      min-height: 86px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .node b {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .node span {
+      display: block;
+      color: #c7d2d2;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .board-foot {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .metric {
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+      padding-top: 12px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .metric span {
+      display: block;
+      color: #c7d2d2;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    section {
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid.four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 8px 18px rgba(20, 32, 36, 0.04);
+      min-width: 0;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      border: 1px solid transparent;
+    }
+
+    .tag.blue {
+      background: #e7f1f7;
+      color: var(--blue);
+      border-color: #c5dceb;
+    }
+
+    .tag.teal {
+      background: #e2f3ef;
+      color: var(--teal);
+      border-color: #b9ded7;
+    }
+
+    .tag.gold {
+      background: #f6edc9;
+      color: var(--gold);
+      border-color: #e6d38d;
+    }
+
+    .tag.red {
+      background: #fce8e6;
+      color: var(--red);
+      border-color: #f3c1bb;
+    }
+
+    .tag.green {
+      background: #e5f2df;
+      color: var(--green);
+      border-color: #c4dfb8;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .step {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 128px;
+      position: relative;
+    }
+
+    .step small {
+      display: block;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .step b {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .step span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.38;
+      display: block;
+    }
+
+    .lane-table,
+    .quest-table,
+    .gate-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(20, 32, 36, 0.04);
+    }
+
+    th,
+    td {
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      padding: 12px;
+      vertical-align: top;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    th {
+      color: #2b3a40;
+      background: #edf1ed;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .status {
+      display: inline-block;
+      min-width: 76px;
+      text-align: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .status.green {
+      background: #e5f2df;
+      color: var(--green);
+    }
+
+    .status.gold {
+      background: #f6edc9;
+      color: var(--gold);
+    }
+
+    .status.red {
+      background: #fce8e6;
+      color: var(--red);
+    }
+
+    .panel-band {
+      background: #e9efed;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .mini-dashboard {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .progress-row {
+      display: grid;
+      grid-template-columns: 44px 1fr 92px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #e7ece8;
+      font-size: 13px;
+    }
+
+    .progress-row:last-child {
+      border-bottom: 0;
+    }
+
+    .bar {
+      height: 8px;
+      background: #e1e7e2;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      background: var(--teal);
+      border-radius: inherit;
+    }
+
+    .callout {
+      border-left: 4px solid var(--teal);
+      background: #eef7f4;
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      color: #244249;
+      line-height: 1.45;
+    }
+
+    code {
+      background: #e9ece8;
+      border: 1px solid #d7ded9;
+      border-radius: 6px;
+      padding: 2px 5px;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .panel-band {
+        grid-template-columns: 1fr;
+      }
+
+      .grid.three,
+      .grid.four,
+      .flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell,
+      .topbar-inner {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .hero {
+        padding-top: 18px;
+      }
+
+      .hero-board {
+        min-height: auto;
+      }
+
+      .board-grid,
+      .board-foot,
+      .grid.two,
+      .grid.three,
+      .grid.four,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 8px;
+      }
+
+      th,
+      td {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="mark">OS</div>
+        <div>
+          <strong>Agent OS Clean-Room QA</strong>
+          <span>Fresh repo, blank vault, no private context</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Page sections">
+        <a href="#rules">Rules</a>
+        <a href="#flow">Flow</a>
+        <a href="#lanes">Lanes</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#gaps">Gap Checks</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="shell">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">QC artifact</p>
+        <h1>Prove the starter kit works without using inside knowledge.</h1>
+        <p class="lede">
+          This map shows how a first-time user should move from <code>START_HERE.md</code> to a working Agent OS setup through Cowork, Claude Code, Codex, or a blended lane. The test starts from a clean temp repo and a blank vault, then records every gap the co-pilot exposes.
+        </p>
+      </div>
+
+      <div class="hero-board" aria-label="Clean-room setup summary">
+        <div class="board-title">
+          <strong>Clean-room run</strong>
+          <span>private infrastructure excluded</span>
+        </div>
+        <div class="board-grid">
+          <div class="node">
+            <b>Input</b>
+            <span>Fresh repo copy, blank vault, empty progress file.</span>
+          </div>
+          <div class="node">
+            <b>Co-pilot</b>
+            <span>Cowork, Claude Code, Codex, or blended lead.</span>
+          </div>
+          <div class="node">
+            <b>Output</b>
+            <span>Vault, prompts, handoff, lint, eval, dashboard.</span>
+          </div>
+          <div class="node">
+            <b>Memory</b>
+            <span>Progress JSON is canonical and portable.</span>
+          </div>
+          <div class="node">
+            <b>Visual layer</b>
+            <span>Default local HTML dashboard, optional Notion hub.</span>
+          </div>
+          <div class="node">
+            <b>Gate</b>
+            <span>No hidden private context, no secrets, no skipped claims.</span>
+          </div>
+        </div>
+        <div class="board-foot">
+          <div class="metric">
+            <strong>4</strong>
+            <span>setup lanes</span>
+          </div>
+          <div class="metric">
+            <strong>9</strong>
+            <span>quests Q0 to Q8</span>
+          </div>
+          <div class="metric">
+            <strong>1</strong>
+            <span>source of truth</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="rules">
+      <div class="section-head">
+        <h2>Clean-Room Rules</h2>
+        <p>The QA run must behave like a stranger found the repo, picked a co-pilot, and asked it to set up an agent operating system from scratch.</p>
+      </div>
+      <div class="grid four">
+        <div class="card">
+          <span class="tag red">Excluded</span>
+          <h3>Private Command Center</h3>
+          <p>The starter kit does not ship the maintainer's private Command Center, group chat, private routes, inboxes, or production telemetry.</p>
+        </div>
+        <div class="card">
+          <span class="tag blue">Input</span>
+          <h3>Fresh Repo Copy</h3>
+          <p>Use a temporary folder and only the files in this repo. Do not rely on prior agent memory or previous setup notes.</p>
+        </div>
+        <div class="card">
+          <span class="tag teal">Input</span>
+          <h3>Blank Vault</h3>
+          <p>Start with a new vault folder and let the setup co-pilot create the structure, index, progress file, and handoff loop.</p>
+        </div>
+        <div class="card">
+          <span class="tag gold">Constraint</span>
+          <h3>No Inside Knowledge</h3>
+          <p>The tester answers like a first-time user. The co-pilot can read repo docs, but cannot use private operational context.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow">
+      <div class="section-head">
+        <h2>First-Time User Flow</h2>
+        <p>Each lane should move through the same core proof path, even if the interface feels different.</p>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <small>01</small>
+          <b>Open <code>START_HERE.md</code></b>
+          <span>User pastes the boot prompt into the chosen setup co-pilot.</span>
+        </div>
+        <div class="step">
+          <small>02</small>
+          <b>Run diagnostic</b>
+          <span>Co-pilot asks goals, tools, memory state, risk constraints, and success test.</span>
+        </div>
+        <div class="step">
+          <small>03</small>
+          <b>Pick lane</b>
+          <span>Co-pilot recommends Cowork, Claude Code, Codex, or blended with clear reasons.</span>
+        </div>
+        <div class="step">
+          <small>04</small>
+          <b>Build foundation</b>
+          <span>Vault, BRAIN_INDEX, VaultBus, progress JSON, and session registry are created.</span>
+        </div>
+        <div class="step">
+          <small>05</small>
+          <b>Test the loop</b>
+          <span>Prompts, save-up, handoff, lint, security sweep, and eval record are checked.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="lanes">
+      <div class="section-head">
+        <h2>Lane Responsibilities</h2>
+        <p>The product promise is not one tool. It is a setup co-pilot that routes the user to the right lane and leaves inspectable artifacts.</p>
+      </div>
+      <table class="lane-table">
+        <thead>
+          <tr>
+            <th>Lane</th>
+            <th>What the clean-room run tests</th>
+            <th>Evidence</th>
+            <th>Risk to watch</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Cowork</strong></td>
+            <td>Can a chat-first user mount files, answer the diagnostic, create agents, and run the handoff loop without terminal comfort?</td>
+            <td>Vault folders, Chief of Staff prompt, specialist prompt, progress JSON, handoff note.</td>
+            <td>Do not make Cowork feel required for every user.</td>
+          </tr>
+          <tr>
+            <td><strong>Claude Code</strong></td>
+            <td>Can a terminal-native user inspect repo state, create files, run lint, understand git output, and verify the setup?</td>
+            <td>Command log summary, lint report, generated prompts, QC run note.</td>
+            <td>Do not assume the user already speaks git.</td>
+          </tr>
+          <tr>
+            <td><strong>Codex</strong></td>
+            <td>Can an OpenAI local agent create scoped repo changes, validate them, and produce a clean handoff?</td>
+            <td>Diff, local checks, browser or HTML review when relevant, handoff summary.</td>
+            <td>Do not assume Claude-specific tools exist.</td>
+          </tr>
+          <tr>
+            <td><strong>Blended</strong></td>
+            <td>Can Claude and Codex share one vault, divide ownership, and avoid editing conflicts?</td>
+            <td>Ownership map, status files, one cross-agent directive, acknowledgements, no file conflicts.</td>
+            <td>Do not route beginners here unless the diagnostic says the complexity is useful.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="dashboard">
+      <div class="section-head">
+        <h2>Quest Tracking</h2>
+        <p>Gamification is the visible layer over the setup work. The repo should track progress in one durable file and optionally mirror it into a friendlier dashboard.</p>
+      </div>
+      <div class="panel-band">
+        <div>
+          <div class="callout">
+            The source of truth is <code>onboarding-progress.json</code>. The co-pilot creates a local HTML dashboard by default. If Notion exists, the co-pilot can also mirror quests into a Notion coordination hub.
+          </div>
+          <div class="grid two" style="margin-top: 14px;">
+            <div class="card">
+              <span class="tag teal">Canonical</span>
+              <h3>Progress JSON</h3>
+              <p>Portable, local, versionable, and readable by any setup lane.</p>
+            </div>
+            <div class="card">
+              <span class="tag blue">Optional</span>
+              <h3>Notion Hub</h3>
+              <p>Optional coordination space for quests, agent status, and getting unstuck.</p>
+            </div>
+            <div class="card">
+              <span class="tag gold">Optional</span>
+              <h3>Local HTML Dashboard</h3>
+              <p>Default visual progress artifact for setup quests.</p>
+            </div>
+            <div class="card">
+              <span class="tag green">Evidence</span>
+              <h3>QC Run Record</h3>
+              <p>Shows which quests passed, where friction happened, and what got patched.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mini-dashboard">
+          <div class="progress-row">
+            <strong>Q0</strong>
+            <div>
+              <b>Plan and dashboard</b>
+              <div class="bar"><div class="fill" style="width: 100%;"></div></div>
+            </div>
+            <span class="status green">Done</span>
+          </div>
+          <div class="progress-row">
+            <strong>Q1</strong>
+            <div>
+              <b>Vault foundation</b>
+              <div class="bar"><div class="fill" style="width: 100%;"></div></div>
+            </div>
+            <span class="status green">Done</span>
+          </div>
+          <div class="progress-row">
+            <strong>Q2</strong>
+            <div>
+              <b>Coordination layer</b>
+              <div class="bar"><div class="fill" style="width: 70%;"></div></div>
+            </div>
+            <span class="status gold">Testing</span>
+          </div>
+          <div class="progress-row">
+            <strong>Q6</strong>
+            <div>
+              <b>Handoff loop</b>
+              <div class="bar"><div class="fill" style="width: 35%;"></div></div>
+            </div>
+            <span class="status gold">Open</span>
+          </div>
+          <div class="progress-row">
+            <strong>Q7</strong>
+            <div>
+              <b>Quality checks</b>
+              <div class="bar"><div class="fill" style="width: 0%;"></div></div>
+            </div>
+            <span class="status red">Blocked</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gaps">
+      <div class="section-head">
+        <h2>Gap Checks</h2>
+        <p>These are the questions the clean-room run should answer before the repo is treated as ready for public users.</p>
+      </div>
+      <table class="gate-table">
+        <thead>
+          <tr>
+            <th>Check</th>
+            <th>What success looks like</th>
+            <th>Patch if it fails</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Basic user path</strong></td>
+            <td>User understands they can start with a simple AI workflow, not only a full agent team.</td>
+            <td>Add clearer website and repo positioning for basic, team, and advanced paths.</td>
+          </tr>
+          <tr>
+            <td><strong>Dashboard choice</strong></td>
+            <td>User knows progress can live in JSON, Notion, or a local HTML artifact.</td>
+            <td>Patch <code>START_HERE.md</code> Q0 and Q3 instructions.</td>
+          </tr>
+          <tr>
+            <td><strong>Notion expectation</strong></td>
+            <td>User knows the repo can create a Notion dashboard, but not the maintainer's private Command Center.</td>
+            <td>Patch <code>docs/NOTION_DASHBOARD_SCHEMA.md</code> and setup copy.</td>
+          </tr>
+          <tr>
+            <td><strong>Recursive eval</strong></td>
+            <td>One breakdown becomes a lesson, doc patch, eval, record, and retest.</td>
+            <td>Patch <code>docs/EVALS.md</code>, <code>docs/IMPLEMENTATION_QC.md</code>, or the relevant lane doc.</td>
+          </tr>
+          <tr>
+            <td><strong>Security boundary</strong></td>
+            <td>No secrets, private routes, raw inboxes, chat exports, or production internals appear.</td>
+            <td>Stop release, remove the artifact, rerun security review.</td>
+          </tr>
+          <tr>
+            <td><strong>Marketing claim match</strong></td>
+            <td>Website and video only show behaviors the repo can actually guide.</td>
+            <td>Change the claim, or add the missing setup support before launch.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Final Evidence Package</h2>
+        <p>Each clean-room run should leave enough proof for a reviewer to tell what happened without rerunning the whole setup.</p>
+      </div>
+      <div class="grid three">
+        <div class="card">
+          <span class="tag blue">Run record</span>
+          <h3>Persona and lane</h3>
+          <p>Who the tester pretended to be, which lane was recommended, and whether the user accepted or corrected it.</p>
+        </div>
+        <div class="card">
+          <span class="tag teal">Artifacts</span>
+          <h3>What was created</h3>
+          <p>Vault files, prompts, handoff, progress tracker, dashboard option, lint report, and eval record.</p>
+        </div>
+        <div class="card">
+          <span class="tag gold">Retest</span>
+          <h3>What improved</h3>
+          <p>Every meaningful failure should name the lesson, patch, and retest result.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
