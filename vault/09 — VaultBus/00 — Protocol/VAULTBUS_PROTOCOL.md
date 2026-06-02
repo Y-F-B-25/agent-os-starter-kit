@@ -99,10 +99,10 @@ Finish the hero section, then push via watcher.
 ### When to Update
 
 - At task start
-- At each milestone (or every 15-20 tool calls, whichever comes first)
+- At each milestone (or every 15-20 tool calls if no context meter exists)
 - When blocked
 - When done
-- When entering yellow zone (60 tool calls)
+- When entering the yellow context zone
 
 ---
 
@@ -247,4 +247,4 @@ Every time you: update your status, create a command, acknowledge a command, cre
 7. Views are summaries — read primary files when acting.
 8. Commands are immutable after creation.
 9. Create + Register is atomic (inherited from BRAIN_INDEX Rule 6).
-10. **Enforce the Context Ceiling.** Track your tool call count. Yellow at 60, hard stop at 80. Full protocol: `04 — Operations/CONTEXT_CEILING.md`.
+10. **Enforce the Context Ceiling.** Use the best context signal available. If a token or context meter exists, yellow starts around 50 percent and red starts at 70 percent. If no meter exists, use tool calls as a rough fallback. Full protocol: `04 — Operations/CONTEXT_CEILING.md`.

@@ -37,7 +37,7 @@ Your status file: `[Your Vault]/09 — VaultBus/10 — Status/[your-agent-slug].
 Update your status at every transition. Check your inbox before starting work and after milestones.
 
 ## Context Ceiling
-Track your tool call count from session start. At 60 tool calls, notify the human. At 80, stop new work and save up (see 04 — Operations/CONTEXT_CEILING.md). Non-negotiable.
+Use the clearest context signal your lane exposes. If you can see token or context percentage, warn the human around 50 percent and save up at 70 percent or on any context-limit warning. If you cannot see a meter, use tool calls as a rough fallback. See 04 — Operations/CONTEXT_CEILING.md.
 
 ## Rules
 - Read BRAIN_INDEX for anything you need. Don't ask the human for context.

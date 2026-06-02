@@ -572,7 +572,7 @@
     <details>
       <summary>Technical details &rarr;</summary>
       <div class="tech-content">
-        This is the <strong>Context Ceiling Protocol</strong>. Agents track their tool call count from session start. At 60 calls they enter "yellow zone" and notify the user. At 80 calls they hard-stop: checkpoint current task, update their VaultBus status file, write a structured handoff document, and update the session README. The handoff is then incorporated into the next version's boot prompt.
+        This is the <strong>Context Ceiling Protocol</strong>. Agents use the clearest context signal their lane exposes. If a token or context meter exists, yellow starts around 50 percent and red starts at 70 percent. If no meter exists, tool calls are a fallback. At red, the agent checkpoints the current task, updates VaultBus, writes a structured handoff, and updates the session README. The next version starts by reading that handoff.
       </div>
     </details>
   </div>
@@ -604,7 +604,7 @@
     <details>
       <summary>Technical details &rarr;</summary>
       <div class="tech-content">
-        The 13 rules are codified in <code>BRAIN_INDEX.md</code> and enforced through boot prompts, handoff docs, and admin monitoring. Key examples: <strong>Rule 6</strong> &mdash; Create + Register is atomic (any new file must be registered in BRAIN_INDEX in the same action). <strong>Rule 10</strong> &mdash; Context Ceiling (hard stop at 80 tool calls, non-negotiable). <strong>Rule 12</strong> &mdash; Use Edit for existing files, not full rewrites (prevents invisible bugs). There's also a <strong>Vault Lint</strong> system that periodically scans the knowledge base for structural issues.
+        The 13 rules are codified in <code>BRAIN_INDEX.md</code> and enforced through boot prompts, handoff docs, and admin monitoring. Key examples: <strong>Rule 6</strong> &mdash; Create + Register is atomic (any new file must be registered in BRAIN_INDEX in the same action). <strong>Rule 10</strong> &mdash; Context Ceiling (use the real context meter when available; use tool calls only as a fallback). <strong>Rule 12</strong> &mdash; Use Edit for existing files, not full rewrites (prevents invisible bugs). There's also a <strong>Vault Lint</strong> system that periodically scans the knowledge base for structural issues.
       </div>
     </details>
   </div>
@@ -622,7 +622,7 @@
     <div class="pr">
       <div class="pn">01</div>
       <h3>Context Ceiling</h3>
-      <p>Every agent tracks tool call count. Yellow at 60, hard stop at 80. Agents write handoffs before they degrade &mdash; never after. No context is ever lost.</p>
+      <p>Agents watch the best context signal available. Real meters win. Tool calls are only a fallback. Agents write handoffs before they degrade, so no context is lost.</p>
     </div>
     <div class="pr">
       <div class="pn">02</div>

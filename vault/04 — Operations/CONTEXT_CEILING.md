@@ -4,83 +4,82 @@
 
 ## Why This Exists
 
-When an agent's context window gets too long, it stops following protocols. It forgets VaultBus updates, skips the watcher, misses inbox checks, and starts making decisions that cost the human time. This protocol prevents that by establishing a hard ceiling that every agent must enforce on itself.
+Long agent sessions eventually lose instruction fidelity. Agents start missing inbox checks, skipping handoffs, repeating work, or making decisions from stale context. This protocol keeps the system reliable by forcing a save-up before quality drops.
 
 ---
 
 ## The Rule
 
-**Every agent must track its own tool call count from session start.** When you hit the ceiling, you stop productive work and begin your save-up sequence. No exceptions.
+Use the best context signal your lane exposes.
 
-### Thresholds
+| Signal available | Yellow zone | Red zone |
+|---|---:|---:|
+| Token or context meter | 50-69 percent | 70 percent or higher |
+| No meter available | about 60 tool calls | about 80 tool calls |
 
-| Threshold | Tool Calls | What Happens |
-|-----------|-----------|--------------|
-| **Green** | 0-60 | Normal work. Follow all protocols. |
-| **Yellow** | 61-80 | Awareness zone. Tell the human: "I'm at ~X tool calls, approaching context ceiling. I can finish [current task] but should save up soon." |
-| **Red / Hard Ceiling** | 81+ | Stop new work immediately. Begin save-up sequence (see below). |
+At red, stop new work and begin the save-up sequence. No exceptions.
 
-### How to Count
+### How to Read the Signal
 
-You don't have a literal token counter, so use **tool calls as a proxy**. Every time you use a tool (Read, Write, Edit, Bash, watcher command, MCP call, etc.), that's +1. Keep a running mental count. If you lose count, assume you're in yellow and tell the human.
+- If the app shows a token or context percentage, trust that over tool-call count.
+- If the app shows a context-limit warning, treat that as red even if you do not know the exact percentage.
+- If the session compacted, do not assume you are fresh. Continue only if the current task is clear and the handoff risk is low. Otherwise, save up.
+- If no meter exists, use tool calls as a rough fallback. Tool calls are imperfect, but they are still a useful warning sign because tool results add a lot of context.
 
 ---
 
 ## Save-Up Sequence
 
-When you hit the hard ceiling (or the human tells you to save up), do this in order:
+When you hit red, or the human tells you to save up, do this in order:
 
-1. **Finish or checkpoint your current task.** Don't leave code half-written or a file half-edited. If you can't finish in 3-5 more tool calls, checkpoint what you have and document what's left.
+1. **Finish or checkpoint the current task.** Do not leave code half-written or a file half-edited. If you cannot finish in a few more actions, checkpoint what exists and document what remains.
 
-2. **Update your VaultBus status file.** Set status to `done`. List what you accomplished and what's still pending.
+2. **Update your VaultBus status file if your setup uses one.** Set status to `done`, `blocked`, or the clearest current state. List what changed and what still needs attention.
 
-3. **Write your handoff document.** Location: `[Your Vault]/08 — Handoffs/{agent-slug}-v{N}-to-v{N+1}.md`. Include:
-   - What you accomplished this session
-   - What's not done (be specific — file paths, line numbers, error messages)
-   - Any context that would be lost (decisions made, preferences expressed, blockers discovered)
-   - Exact next steps for the next version
+3. **Write the handoff document.** Location: `[Your Vault]/08 — Handoffs/{agent-slug}-v{N}-to-v{N+1}.md`. Include:
+   - What you accomplished
+   - What is not done
+   - Decisions, preferences, or blockers the next session needs
+   - Exact next steps
 
-4. **Write a boot prompt for your next version.** Location: `[Your Vault]/05 — Sessions/{Agent Name}/BOOT_PROMPT_v{N+1}.md`. The boot prompt must be:
-   - **Self-contained** — paste-ready, no wrapper text or commentary
-   - **Points to the handoff** — the new version reads it on boot
-   - **Starts with the agent's identity line** (e.g., "You are the Admin Agent v5...")
-   - This is non-negotiable. The handoff preserves context; the boot prompt is how the human starts the next session. Both must exist.
+4. **Write the next boot prompt.** Location: `[Your Vault]/05 — Sessions/{Agent Name}/BOOT_PROMPT_v{N+1}.md`. The boot prompt must be:
+   - Self-contained
+   - Paste-ready
+   - Pointed at the handoff
+   - Started with the agent identity line
 
-5. **Update your session README.** Location: `[Your Vault]/05 — Sessions/{Agent Name}/README.md`. Add the version entry.
+5. **Update your session README.** Add the new version entry and link to the handoff and boot prompt.
 
-6. **Tell the human you're done.** Say: "I've hit my context ceiling. Handoff is at [path]. **Your boot prompt for v{N+1} is at [path] — paste it into a new session to continue.**"
+6. **Tell the human where to continue.** Give the handoff path and the next boot prompt path.
 
 ---
 
-## The Operating Rhythm (for humans)
+## The Operating Rhythm
 
-This is how your system works, every time, no exceptions:
+1. The human starts an agent session with a boot prompt.
+2. The agent works until the context signal reaches red.
+3. The agent writes a handoff and the next boot prompt.
+4. The next session reads the handoff and picks up the work.
 
-1. You paste a boot prompt into a new session → your agent starts working
-2. Your agent hits its context ceiling → it saves up automatically
-3. You get two files: a **handoff** (the agent's memory) and a **boot prompt** (your next paste)
-4. You open a new session, paste the boot prompt → the new version reads the handoff and picks up where the last one left off
-5. Repeat
-
-This is the heartbeat of the system. Agents come and go, but the vault persists. Nothing gets lost because every agent writes down what it knows before it leaves, and the next version reads it on arrival.
+The vault is the durable memory. The handoff is what prevents context from being lost between sessions.
 
 ---
 
 ## Boot Prompt Requirement
 
-Every boot prompt must include this block:
+Every boot prompt should include this block:
 
 ```
 ## Context Ceiling
-You must track your tool call count from session start. At 60 tool calls, notify the human you're approaching the ceiling. At 80 tool calls, stop new work and begin your save-up sequence (see 04 — Operations/CONTEXT_CEILING.md). This is non-negotiable — long contexts cause protocol drift and degrade your work quality.
+Use the clearest context signal your lane exposes. If you can see token or context percentage, warn the human around 50 percent and save up at 70 percent or on any context-limit warning. If you cannot see a meter, use tool calls as a rough fallback: warn around 60 tool calls and save up around 80, or sooner if quality drops. See 04 — Operations/CONTEXT_CEILING.md.
 
-Your save-up sequence MUST produce TWO files: a handoff document AND a boot prompt for your next version. The human pastes that boot prompt to continue. This is the universal operating rhythm — never deviate from it.
+Your save-up sequence must produce a handoff document and a boot prompt for your next version.
 ```
 
 ---
 
-## Why Tool Calls and Not Messages
+## Why Tool Calls Are Only a Fallback
 
-Token count isn't directly observable from inside a session. Tool calls are. They also correlate well with context growth because each tool call adds both the request and the response to context. 80 tool calls with typical Read/Write/Bash usage puts most sessions well into the degradation zone.
+Tool calls are not the real ceiling. The real ceiling is remaining usable context, and that depends on the model, app, compaction state, file sizes, and the kind of work being done.
 
-The numbers (60/80) are starting estimates. If agents are still drifting before 60, lower the thresholds. If they're fine past 80 in some session types, you can create per-agent overrides. But start strict and loosen later — not the other way around.
+Use tool-call counts only when the agent cannot see a better meter. Start strict, then adjust based on observed quality in the specific lane.
