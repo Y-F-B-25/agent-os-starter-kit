@@ -5,13 +5,14 @@ Use this path when the user wants OpenAI local agent support, implementation wor
 ## Best Fit
 
 - User wants Codex as the local implementation agent.
-- Repo changes, code review, or local UI checks matter.
+- File changes, repo changes, code review, or local UI checks matter.
 - The user wants Claude and OpenAI agents to share a vault later.
 - The setup needs strong verification.
 
 ## Co-Pilot Responsibilities
 
-- Inspect repo state before edits.
+- Inspect workspace state before edits.
+- Run `git status` only if the workspace is a git repo.
 - Use existing project conventions.
 - Patch docs, prompts, scripts, or UI files directly.
 - Run local validation.
@@ -20,14 +21,15 @@ Use this path when the user wants OpenAI local agent support, implementation wor
 
 ## User Responsibilities
 
-- Open Codex in the repo or project folder.
+- Open Codex in the starter-kit folder, project folder, or setup folder.
 - Approve sensitive actions.
 - Provide screenshots or browser context when needed.
 - Decide whether Codex stays solo or joins a blended setup.
 
 ## First Pass Checklist
 
-- [ ] Repo status checked.
+- [ ] Workspace state checked.
+- [ ] `git status` checked if the workspace is a git repo.
 - [ ] Diagnostic complete.
 - [ ] Codex lane selected or blended ownership written.
 - [ ] Vault files created or verified.
@@ -44,4 +46,4 @@ Use this path when the user wants OpenAI local agent support, implementation wor
 
 ## Finish Line
 
-The Codex lane is ready when Codex can make a scoped repo change, validate it, write a handoff, and leave the next agent a clear starting point.
+The Codex lane is ready when Codex can make a scoped file or repo change, validate it, write a handoff, and leave the next agent a clear starting point.

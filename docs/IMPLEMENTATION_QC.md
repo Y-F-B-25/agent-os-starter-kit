@@ -68,7 +68,8 @@ Watch:
 Pass:
 
 - The user knows this path is terminal-native.
-- The co-pilot checks repo state before edits.
+- The co-pilot checks workspace state before edits.
+- The co-pilot checks git state only when the workspace is a git repo.
 - The co-pilot explains `git status`, `diff`, `commit`, and `branch` in plain language when needed.
 - Generated files are inspectable.
 - Lint and schema checks run locally.

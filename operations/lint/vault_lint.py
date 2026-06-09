@@ -10,6 +10,7 @@ from pathlib import Path
 
 WIKILINK_RE = re.compile(r"\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]")
 MD_LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+\.md)(?:#[^)]+)?\)")
+CODE_PATH_RE = re.compile(r"`([^`\n]+\.md)(?:#[^`]*)?`")
 
 QUIET_PATH_PARTS = {
     "09 — VaultBus/20 — Commands",
@@ -46,6 +47,33 @@ def resolve_markdown_link(source: Path, target: str, root: Path) -> Path | None:
     return target_path
 
 
+def resolve_code_path(source: Path, target: str, root: Path) -> Path | None:
+    if "://" in target or target.startswith("#"):
+        return None
+    if "[" in target or "]" in target or target.startswith("~"):
+        return None
+
+    clean_target = target
+    root_name = root.name + "/"
+    if clean_target.startswith(root_name):
+        clean_target = clean_target[len(root_name) :]
+
+    candidates = [
+        source.parent / target,
+        root / clean_target,
+    ]
+
+    for candidate in candidates:
+        candidate = candidate.resolve()
+        try:
+            candidate.relative_to(root.resolve())
+        except ValueError:
+            continue
+        if candidate.exists():
+            return candidate
+    return None
+
+
 def lint(root: Path) -> dict:
     files, by_stem = index_markdown(root)
     inbound: dict[Path, set[Path]] = defaultdict(set)
@@ -53,6 +81,7 @@ def lint(root: Path) -> dict:
     ambiguous = []
     wikilinks = 0
     markdown_links = 0
+    code_path_links = 0
 
     for file in files:
         text = file.read_text(encoding="utf-8", errors="ignore")
@@ -76,6 +105,12 @@ def lint(root: Path) -> dict:
             elif target:
                 broken.append((file, match.group(1)))
 
+        for match in CODE_PATH_RE.finditer(text):
+            target = resolve_code_path(file, match.group(1), root)
+            if target:
+                code_path_links += 1
+                inbound[target].add(file)
+
     problem_orphans = []
     quiet_orphans = []
     for file in files:
@@ -92,6 +127,7 @@ def lint(root: Path) -> dict:
         "files": files,
         "wikilinks": wikilinks,
         "markdown_links": markdown_links,
+        "code_path_links": code_path_links,
         "broken": broken,
         "ambiguous": ambiguous,
         "problem_orphans": problem_orphans,
@@ -102,7 +138,7 @@ def lint(root: Path) -> dict:
 def write_report(root: Path, report_dir: Path, result: dict) -> Path:
     report_dir.mkdir(parents=True, exist_ok=True)
     report = report_dir / "latest_lint.md"
-    status = "PASS" if not result["broken"] and not result["ambiguous"] else "FAIL"
+    status = "PASS" if not result["broken"] and not result["ambiguous"] and not result["problem_orphans"] else "FAIL"
     lines = [
         "# Agent OS Vault Lint",
         "",
@@ -111,6 +147,7 @@ def write_report(root: Path, report_dir: Path, result: dict) -> Path:
         f"- Files scanned: {len(result['files'])}",
         f"- Wikilinks: {result['wikilinks']}",
         f"- Markdown note links: {result['markdown_links']}",
+        f"- Backticked path links: {result['code_path_links']}",
         f"- Broken links: {len(result['broken'])}",
         f"- Ambiguous links: {len(result['ambiguous'])}",
         f"- Problem orphans: {len(result['problem_orphans'])}",
@@ -158,7 +195,7 @@ def main() -> int:
         f"{len(result['problem_orphans'])} problem orphans. "
         f"Report: {report}"
     )
-    return 1 if result["broken"] or result["ambiguous"] else 0
+    return 1 if result["broken"] or result["ambiguous"] or result["problem_orphans"] else 0
 
 
 if __name__ == "__main__":

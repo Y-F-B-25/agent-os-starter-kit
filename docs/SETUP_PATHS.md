@@ -33,16 +33,16 @@ Detailed lane doc: [COWORK_SETUP.md](COWORK_SETUP.md).
 
 ## Path 2: Claude Code
 
-Best for users who want terminal-native setup and repo work.
+Best for users who want terminal-native setup, local file work, or repo work.
 
 Detailed lane doc: [CLAUDE_CODE_SETUP.md](CLAUDE_CODE_SETUP.md).
 
 ### Build Order
 
-1. Open Claude Code in the repo.
+1. Open Claude Code in the starter-kit folder, project folder, or setup folder.
 2. Paste `START_HERE.md`.
 3. Run the diagnostic.
-4. Use shell checks for repo and vault state.
+4. Use shell checks for workspace and vault state.
 5. Create or patch files.
 6. Run lint and schema checks.
 7. Write boot prompts.
@@ -51,7 +51,7 @@ Detailed lane doc: [CLAUDE_CODE_SETUP.md](CLAUDE_CODE_SETUP.md).
 ### Strengths
 
 - Strong file and command execution.
-- Good for builders who already use git.
+- Good for builders who want local validation.
 - Easy to verify generated files.
 
 ### Watchouts
@@ -67,7 +67,7 @@ Detailed lane doc: [CODEX_SETUP.md](CODEX_SETUP.md).
 
 ### Build Order
 
-1. Open Codex in the repo.
+1. Open Codex in the starter-kit folder, project folder, or setup folder.
 2. Paste `START_HERE.md`.
 3. Run the diagnostic.
 4. Use local file edits and validations.
@@ -110,8 +110,8 @@ Detailed lane doc: [BLENDED_SETUP.md](BLENDED_SETUP.md).
 | Lane | Owns |
 |---|---|
 | Claude | Chief of Staff, planning, synthesis, long-running conversation, coaching |
-| Claude Code | terminal-native implementation, repo operations, script execution |
-| Codex | code edits, browser checks, local validation, OpenAI-specific workflows |
+| Claude Code | terminal-native implementation, local file work, repo operations when relevant, script execution |
+| Codex | code edits, doc edits, browser checks, local validation, OpenAI-specific workflows |
 | Human | approvals, sensitive data, publishing, paid services |
 
 ### Watchouts

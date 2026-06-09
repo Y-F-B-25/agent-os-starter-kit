@@ -15,12 +15,12 @@ The diagnostic decides what to build first, which setup lane to use, and how muc
 | Order | Question | Why it matters |
 |---|---|---|
 | 1 | What do you want this system to help with first? | Anchors the build in a real use case |
-| 2 | Which profile fits: Organizer, Deep Worker, Enterprise Operator, Builder, Team Lead? | Sets pacing and examples |
+| 2 | After defining the profiles in one sentence each, which profile fits: Organizer, Deep Worker, Enterprise Operator, Builder, Team Lead? | Sets pacing and examples |
 | 3 | Where are you already using AI? | Avoids re-teaching what they know |
 | 4 | What operating system are you on? | Determines scripts and watcher guidance |
-| 5 | Do you prefer chat-first, terminal-first, Codex-first, or blended? | Selects setup lane |
+| 5 | How often do you use the terminal: never, rarely, sometimes, or every day? | Adds an inferential setup-lane signal |
 | 6 | Do you already have Obsidian, Notion, or a project folder you care about? | Prevents overwriting existing systems |
-| 7 | Which first two agents would be useful? | Builds a real team, not a demo |
+| 7 | Based on the user's goal, propose the first two agents and ask the user to confirm or correct. | Builds a real team, not a demo |
 | 8 | What data or repos should this system avoid? | Sets safety boundaries |
 | 9 | What would prove this worked today? | Creates the graduation test |
 
@@ -28,7 +28,7 @@ The diagnostic decides what to build first, which setup lane to use, and how muc
 
 | Profile | Signs | Setup bias |
 |---|---|---|
-| Organizer | Many scattered AI chats, wants continuity | Cowork or Codex with more guidance |
+| Organizer | Many scattered AI chats, wants continuity | Cowork preferred, or blended once the Cowork loop works |
 | Deep Worker | Already uses AI heavily, wants lower overhead | Claude Code or blended |
 | Enterprise Operator | Needs repeatable rollout and governance | Cowork first, security and evals early |
 | Builder | Wants to edit repos and run checks | Claude Code or Codex |

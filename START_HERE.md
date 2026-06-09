@@ -21,14 +21,18 @@ You do the mechanical work. The user answers, approves, confirms, and learns.
 
 ## Boot Checklist
 
-First, inspect the repo at the mounted folder.
+First, inspect the mounted folder. It may be the starter-kit repo, a project folder, or a blank setup folder.
 
-Read these files if present:
+Read these essential files first if present:
 
 - `README.md`
 - `GETTING_STARTED.md`
 - `docs/DIAGNOSTIC.md`
 - `docs/SETUP_PATHS.md`
+- `vault/00 — Home/BRAIN_INDEX.md`
+
+Read these lazy files only when the matching quest or question needs them:
+
 - `docs/IMPLEMENTATION_QC.md`
 - `docs/COWORK_PREREQS.md`
 - `docs/PLAYBOOKS.md`
@@ -38,7 +42,6 @@ Read these files if present:
 - `docs/EVALS.md`
 - `docs/SAVE_UP.md`
 - `docs/SECURITY_REVIEW.md`
-- `vault/00 — Home/BRAIN_INDEX.md`
 - `vault/09 — VaultBus/00 — Protocol/VAULTBUS_PROTOCOL.md`
 
 Then check whether a progress file already exists at:
@@ -62,12 +65,17 @@ Then run the diagnostic one exchange at a time.
 Ask these questions. Keep the conversation natural.
 
 1. **Outcome:** What do you want this system to help with first?
-2. **Profile:** Which sounds closest: Organizer, Deep Worker, Enterprise Operator, Builder, or Team Lead?
+2. **Profile:** Briefly define the profiles first, using `docs/DIAGNOSTIC.md`, then ask which sounds closest:
+   - Organizer: many scattered AI chats and wants continuity.
+   - Deep Worker: already uses AI heavily and wants lower overhead.
+   - Enterprise Operator: needs repeatable rollout and governance.
+   - Builder: wants to edit files, repos, or systems and run checks.
+   - Team Lead: wants agents assigned to workstreams.
 3. **Current AI use:** Where are you already working with AI: chat, IDE, Claude Code, Codex, Cowork, Notion, Obsidian, other?
 4. **Operating system:** Mac, Windows, Linux, or mixed?
-5. **Preferred lane:** Do you want chat-first, terminal-first, OpenAI/Codex-first, or blended?
+5. **Tool comfort:** How often do you use the terminal: never, rarely, sometimes, or every day?
 6. **Memory state:** Do you already have an Obsidian vault, Notion workspace, or project folder you care about?
-7. **Team shape:** What first two agents would be useful: Chief of Staff, project agent, research agent, security agent, writing agent, ops agent, or another role?
+7. **Team shape:** Propose the first two agents from `docs/DIAGNOSTIC.md` based on the user's outcome, then ask the user to confirm or correct the suggestion.
 8. **Risk constraints:** Any data, credentials, client work, or private repos the system must avoid?
 9. **Success test:** What would prove this setup worked by the end of today?
 
@@ -91,6 +99,8 @@ Then explain the Skills Pack in plain English:
 - What ships by default: vault setup, local dashboard, handoffs, Vault Lint, retrieval, evals, and security checks.
 - What is optional: Notion dashboard, watcher bridge, automations, blended second lane, and advanced app-specific skills.
 - What is not included: private Command Center internals, private inboxes, raw logs, private routes, or personal agent memory.
+
+If the user's stated preference conflicts with the scoring, use the score as the recommendation and treat the preference as a sanity check. For example, a beginner Organizer who says "OpenAI/Codex-first" may still be better served by Cowork first, then Codex later.
 
 ## Progress File
 
@@ -123,7 +133,7 @@ Adapt names and details to the chosen lane, but keep this order.
 | Q4 | Chief of Staff | Write the first admin or Chief of Staff boot prompt | Opens a new session and pastes it |
 | Q5 | Specialist agent | Write one specialist boot prompt based on the diagnostic | Opens a new session and pastes it |
 | Q6 | Handoff loop | Run save-up, handoff, and reboot test | Confirms the new session resumes correctly |
-| Q7 | Quality checks | Run `python3 operations/lint/vault_lint.py --vault vault` and onboarding eval | Reviews pass/fail summary |
+| Q7 | Quality checks | Run `python3 operations/lint/vault_lint.py --vault vault` and check against `docs/EVALS.md` Onboarding Eval and Vault Eval. Report pass, warnings, or fail per category | Reviews pass/fail summary |
 | Q8 | Optional power tools | Add watcher, retrieval from `docs/VECTOR_RETRIEVAL.md`, security sweep, recursive eval loop, automations, or blended second lane | Approves only what is needed |
 
 After Q0, tell the user:
@@ -144,8 +154,9 @@ After Q0, tell the user:
 
 - Use terminal-first language.
 - Prefer scripts, repo checks, and explicit command output.
-- Make git status visible before and after important changes.
-- Treat the vault and repo as inspectable source of truth.
+- Make workspace state visible before and after important changes.
+- Run `git status` only when the mounted folder is a git repo.
+- Treat the vault and mounted folder as inspectable source of truth.
 
 ### Codex
 

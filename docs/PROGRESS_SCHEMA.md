@@ -120,6 +120,7 @@ The setup co-pilot writes this file during setup. It is the source of truth for 
 - Update on friction.
 - Update before save-up.
 - On resume, read this file before asking the user where things left off.
+- `magic_moment` is optional. After each quest, if the user expresses a moment of clarity, momentum, or "I get it now," record that short phrase or observation.
 
 ## Privacy Rules
 
