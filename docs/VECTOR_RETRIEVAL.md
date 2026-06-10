@@ -19,7 +19,7 @@ python3 operations/retrieval/simple_retrieval.py --vault . --index .agent-os-ret
 python3 operations/retrieval/simple_retrieval.py --vault . --index .agent-os-retrieval/root-index.json --query "What is the handoff protocol?"
 ```
 
-The script writes its local index to `.agent-os-retrieval/index.json`, which should stay out of git.
+The example writes its local index to `.agent-os-retrieval/root-index.json`, which should stay out of git.
 
 ## Default Exclusions
 
