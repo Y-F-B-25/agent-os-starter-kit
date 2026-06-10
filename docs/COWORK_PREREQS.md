@@ -12,8 +12,9 @@ The user needs:
 
 - Claude desktop installed.
 - Access to Cowork or a Claude desktop mode that can read and write a selected folder.
-- A local folder for Agent OS, such as `~/Desktop/Agent OS`.
+- The starter-kit folder, or a parent folder that contains it.
 - Permission to let the co-pilot create files inside that folder.
+- Python 3 if the user wants local lint, retrieval, or watcher checks. On a fresh Mac, the first `python3` command may trigger Apple's command line tools prompt.
 
 ## Mounting The Folder
 
@@ -21,7 +22,7 @@ Tell the user:
 
 1. Open Claude desktop.
 2. Start a new Cowork or folder-enabled session.
-3. Choose the Agent OS folder when prompted.
+3. Choose the starter-kit folder, or the parent folder that contains it, when prompted.
 4. Paste `START_HERE.md` as the first message.
 
 If the user cannot mount a folder, switch to Claude Code or Codex setup instead.

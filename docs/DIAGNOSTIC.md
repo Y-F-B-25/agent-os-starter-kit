@@ -36,7 +36,7 @@ The diagnostic decides what to build first, which setup lane to use, and how muc
 
 ## Lane Scoring
 
-Score each lane from 0 to 3.
+Score each signal from 0 to 3, then sum the totals for each lane.
 
 | Signal | Cowork | Claude Code | Codex | Blended |
 |---|---:|---:|---:|---:|

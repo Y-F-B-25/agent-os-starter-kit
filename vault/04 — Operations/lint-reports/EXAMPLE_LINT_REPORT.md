@@ -1,4 +1,4 @@
-# Vault Lint Report — YYYY-MM-DD (Example)
+# Vault Lint Report - YYYY-MM-DD (Example)
 **Triggered by:** New agent creation (example trigger)
 **Run by:** Admin Agent v1
 
@@ -24,11 +24,11 @@
 
 ## Issues
 
-### [CRITICAL] Credential pattern found outside safe zone
-- **Check:** Security — Credential exposure
+### [CRITICAL] Credential pattern found in vault
+- **Check:** Security - credential exposure
 - **Location:** `08 — Handoffs/agent-v1-to-v2.md`
-- **Problem:** Watcher token-shaped value found inline in handoff document. Should never be written into agent-readable files.
-- **Fix:** Redact the token value. Replace with `[REDACTED — use env var COWORK_WATCHER_TOKEN]`.
+- **Problem:** Credential-shaped value found inline in a handoff document. Credential values should never be written into agent-readable files.
+- **Fix:** Remove the value. Reference the approved environment variable or Keychain item by name only, then rotate if exposure is possible.
 
 ### [WARNING] SESSION_REGISTRY is stale
 - **Check:** Registry consistency
@@ -46,17 +46,17 @@
 - **Check:** Orphan pages
 - **Location:** `09 — VaultBus/20 — Commands/inbox/`
 - **Problem:** Command files have no inbound links.
-- **Assessment:** By design — command messages are ephemeral. No action needed.
+- **Assessment:** By design. Command messages are ephemeral. No action needed.
 
 ### [INFO] Empty directory
 - **Check:** Structural integrity
-- **Location:** `04 — Operations/Credentials/`
-- **Problem:** Empty folder (credentials moved to env vars).
+- **Location:** `09 — VaultBus/30 — Escalations/closed/`
+- **Problem:** Empty folder kept as part of the VaultBus structure.
 - **Fix:** Low priority. Remove if not needed, or keep as placeholder.
 
 ## Vault Stats
 - **Total files:** 46 (.md only)
 - **Registered in BRAIN_INDEX:** ~25
-- **Orphan pages:** 3 (all VaultBus commands — acceptable)
+- **Orphan pages:** 3 (all VaultBus commands, acceptable)
 - **Empty directories:** 2
 - **Last lint:** YYYY-MM-DD (this report)

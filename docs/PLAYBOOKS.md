@@ -21,11 +21,13 @@ Create:
 ```text
 vault/
   00 — Home/
-  01 — Systems/
+  01 — Security/
   02 — Architecture/
   03 — Projects/
   04 — Operations/
   05 — Sessions/
+  06 — Decisions/
+  07 — Contacts/
   08 — Handoffs/
   09 — VaultBus/
 ```
@@ -36,6 +38,8 @@ Then create or verify:
 - `vault/05 — Sessions/SESSION_REGISTRY.md`
 - `vault/08 — Handoffs/HANDOFF_PROTOCOL.md`
 - `vault/09 — VaultBus/00 — Protocol/VAULTBUS_PROTOCOL.md`
+
+If the setup starts from a blank folder instead of the starter-kit repo, copy the public docs and operations files the generated BRAIN_INDEX references before Q1 is complete. If the co-pilot cannot access those files, ask the user to mount or clone the starter-kit repo.
 
 ## Obsidian
 
@@ -84,7 +88,7 @@ Local starter:
 
 ```bash
 python3 operations/retrieval/simple_retrieval.py --vault . --index .agent-os-retrieval/root-index.json --build
-python3 operations/retrieval/simple_retrieval.py --vault . --index .agent-os-retrieval/root-index.json --query "What is the handoff protocol?"
+python3 operations/retrieval/simple_retrieval.py --vault . --index .agent-os-retrieval/root-index.json --query "What is the save-up protocol?"
 ```
 
 Rules:

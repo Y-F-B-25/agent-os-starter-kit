@@ -16,7 +16,7 @@ Use this path when Claude and Codex should work from one shared vault.
 | Claude lead | Chief of Staff, planning, coaching, synthesis, project memory |
 | Claude Code | terminal-native execution and repo operations |
 | Codex | implementation patches, browser checks, local validation |
-| Human | approvals, secrets, publishing, sensitive footage |
+| Human | approvals, secrets, publishing, sensitive material |
 
 ## Shared Rules
 

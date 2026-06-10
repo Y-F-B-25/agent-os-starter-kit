@@ -16,7 +16,7 @@ You do not need to know the right answer before you begin. The setup co-pilot wi
 ## Quick Start
 
 1. Clone or download this repo into a folder you control, such as `~/Desktop/Agent OS Starter Kit`.
-2. Open your chosen co-pilot tool with that folder available.
+2. Open your chosen co-pilot tool with the starter-kit folder available. If you use Cowork, mount the folder that contains this repo so the co-pilot can read `START_HERE.md`, `docs/`, `operations/`, and `vault/`.
 3. Copy the full contents of [START_HERE.md](START_HERE.md).
 4. Paste it as the first message.
 5. Answer the diagnostic in plain English.
@@ -50,6 +50,7 @@ You do not need to know the right answer before you begin. The setup co-pilot wi
 - **Notion:** optional dashboard for progress and agent status.
 - **Voice dictation:** useful for giving high-level direction quickly.
 - **Git:** recommended once the repo is stable enough to version.
+- **Python 3:** needed for Vault Lint, retrieval, and optional watcher checks. On a fresh Mac, installing Python may trigger Apple's command line tools prompt.
 
 ## Stuck?
 

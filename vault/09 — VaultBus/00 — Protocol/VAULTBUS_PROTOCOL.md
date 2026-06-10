@@ -1,4 +1,4 @@
-# VaultBus — Inter-Agent Coordination Protocol
+# VaultBus - Inter-Agent Coordination Protocol
 
 **Last updated:** [DATE]
 
@@ -6,7 +6,7 @@
 
 ## What Is VaultBus?
 
-VaultBus is a filesystem-based coordination system for agents running in isolated Cowork sessions. Every agent mounts the same shared folder — that filesystem is the only communication channel between sessions.
+VaultBus is a filesystem-based coordination system for agents running in isolated sessions. Every agent mounts the same shared folder, and that filesystem is the communication channel between sessions.
 
 VaultBus has four layers:
 
@@ -230,7 +230,7 @@ Every time you: update your status, create a command, acknowledge a command, cre
 ## Honest Limitations
 
 - **No session wake-up:** VaultBus cannot forcibly interrupt a Cowork session. Commands sit in inboxes until the target agent is activated.
-- **Pull-on-activation:** The best pattern is durable inboxes — the admin drops a command, the agent picks it up next time it boots.
+- **Pull-on-activation:** The best pattern is durable inboxes. The admin drops a command, and the agent picks it up next time it boots.
 - **Near-instant, not instant:** Filesystem changes propagate immediately to the watcher, but a mid-conversation agent won't see them until it checks.
 - **The human still switches sessions:** VaultBus reduces what the human needs to relay to near-zero content, but they still bring agents online.
 
@@ -244,7 +244,7 @@ Every time you: update your status, create a command, acknowledge a command, cre
 4. Never edit another agent's status file.
 5. Use escalations for real blockers, not routine waiting.
 6. Append events for every write operation.
-7. Views are summaries — read primary files when acting.
+7. Views are summaries. Read primary files when acting.
 8. Commands are immutable after creation.
 9. Create + Register is atomic (inherited from BRAIN_INDEX Rule 6).
 10. **Enforce the Context Ceiling.** Use the best context signal available. If a token or context meter exists, yellow starts around 50 percent and red starts at 70 percent. If no meter exists, use tool calls as a rough fallback. Full protocol: `04 — Operations/CONTEXT_CEILING.md`.

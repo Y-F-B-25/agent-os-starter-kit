@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agent OS Starter Kit — How It All Fits Together</title>
+<title>Agent OS Starter Kit - How It All Fits Together</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -213,8 +213,8 @@
 <div class="hero">
   <div class="hero-content">
     <div class="hero-badge">Educational Guide</div>
-    <h1>Agent OS Starter Kit — How It All Fits Together</h1>
-    <p>A visual walkthrough of the Multi-Agent Forever Memory Operating System. Understand each piece before you set it up.</p>
+    <h1>Agent OS Starter Kit - How It All Fits Together</h1>
+    <p>A visual walkthrough of the public starter kit. Understand the vault, dashboard, handoffs, lint, retrieval, and lane choices before you set them up.</p>
     <div class="hero-sub">
       <strong>While your setup co-pilot builds your lesson plan</strong>, spend a few minutes here to see how all the pieces connect. When you go back, everything the co-pilot asks you to do will make sense.
     </div>
@@ -227,7 +227,7 @@
 <section>
   <div class="sl">The Core Promise</div>
   <h2>Multiple Agents. Forever Memory. No Drag.</h2>
-  <p class="sd">You can run multiple projects at once with a chief of staff agent managing them all, and nothing gets lost — ever. Agents come and go, but the vault persists. <strong style="color:var(--green)">Your co-pilot does the work — you manage.</strong></p>
+  <p class="sd">You can run multiple projects with agents that share durable memory. Agents come and go, but the vault, handoffs, progress file, and checks persist. <strong style="color:var(--green)">Your co-pilot does the setup work. You manage the decisions.</strong></p>
 
   <div class="arch">
     <div class="arch-title">The Four-Layer Stack</div>
@@ -235,28 +235,28 @@
       <div class="al">
         <div class="al-label" style="color:var(--red)">You</div>
         <div class="al-chips">
-          <span class="chip r">Decisions</span><span class="chip r">Direction</span><span class="chip r">Activation</span><span class="chip r">Wispr (Voice)</span>
+          <span class="chip r">Decisions</span><span class="chip r">Direction</span><span class="chip r">Approvals</span><span class="chip r">Success test</span>
         </div>
       </div>
       <div class="aa">&darr;</div>
       <div class="al">
         <div class="al-label" style="color:var(--accent)">Coordination</div>
         <div class="al-chips">
-          <span class="chip v">Chief of Staff Agent</span><span class="chip v">VaultBus</span><span class="chip v">SQLite</span>
+          <span class="chip v">Setup Co-pilot</span><span class="chip v">Chief of Staff Agent</span><span class="chip v">VaultBus</span>
         </div>
       </div>
       <div class="aa">&darr;</div>
       <div class="al">
         <div class="al-label" style="color:var(--green)">Memory</div>
         <div class="al-chips">
-          <span class="chip g">Obsidian Vault</span><span class="chip g">Notion Dashboard</span><span class="chip g">BRAIN_INDEX</span><span class="chip g">Handoff Chain</span>
+          <span class="chip g">Vault Folder</span><span class="chip g">Local HTML Dashboard</span><span class="chip g">BRAIN_INDEX</span><span class="chip g">Handoff Chain</span>
         </div>
       </div>
       <div class="aa">&darr;</div>
       <div class="al">
         <div class="al-label" style="color:var(--gold)">Execution</div>
         <div class="al-chips">
-          <span class="chip o">Project Agents</span><span class="chip o">Codex</span><span class="chip o">Git / IDE</span>
+          <span class="chip o">Cowork</span><span class="chip o">Claude Code</span><span class="chip o">Codex</span><span class="chip o">Optional Watcher</span>
         </div>
       </div>
     </div>
@@ -269,50 +269,50 @@
 <section>
   <div class="sl">Your Toolkit</div>
   <h2>What Each Tool Does (Plain English)</h2>
-  <p class="sd">Seven tools, each with a clear job. No overlap, no ambiguity.</p>
+  <p class="sd">Seven starter-kit pieces, each with a clear job. Optional upgrades can come later.</p>
 
   <div class="tool-grid">
     <div class="tool-card">
-      <div class="icon" style="background:linear-gradient(135deg,#f97316,#dc2626)">Wi</div>
-      <h3>Wispr</h3>
-      <div class="role">Voice Interface</div>
-      <p>Voice-to-text that lets you talk to your agents instead of typing. This is what makes agent management practical — you speak your directions, Wispr types them. The first thing the co-pilot sets up.</p>
+      <div class="icon" style="background:linear-gradient(135deg,#f97316,#dc2626)">S</div>
+      <h3>START_HERE.md</h3>
+      <div class="role">Setup Co-pilot Prompt</div>
+      <p>The first message you paste into Cowork, Claude Code, Codex, or a blended lead. It runs the diagnostic, chooses a lane, and starts the setup quests.</p>
     </div>
     <div class="tool-card">
       <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6)">O</div>
-      <h3>Obsidian</h3>
-      <div class="role">Agent Dashboard</div>
-      <p>A folder of markdown files that agents read and write. Every agent reads the BRAIN_INDEX on boot to learn where everything is. Handoffs, status files, project notes, decision logs — all live here. This is the forever memory.</p>
+      <h3>Vault Folder</h3>
+      <div class="role">Durable Memory</div>
+      <p>A folder of markdown files that agents read and write. Every agent reads BRAIN_INDEX on boot to learn where everything is. Handoffs, status files, project notes, and decision logs live here.</p>
     </div>
     <div class="tool-card">
       <div class="icon" style="background:linear-gradient(135deg,var(--green),#059669)">N</div>
-      <h3>Notion</h3>
-      <div class="role">Human Dashboard</div>
-      <p>Your dashboard for tracking everything at a glance. Agent statuses, project progress, session logs. Agents update it automatically via MCP. You see what's happening without digging through files.</p>
+      <h3>Local Dashboard</h3>
+      <div class="role">Human View</div>
+      <p>A local HTML dashboard mirrors `onboarding-progress.json` so you can scan quests, blockers, handoff status, Vault Lint, and security review without connecting another service.</p>
     </div>
     <div class="tool-card">
       <div class="icon" style="background:linear-gradient(135deg,var(--blue),#2563eb)">V</div>
       <h3>VaultBus</h3>
       <div class="role">Agent Coordination</div>
-      <p>How agents talk to each other without being in the same session. Your chief of staff drops a task into an agent's inbox (a markdown file). When that agent boots, it checks the inbox and finds the task waiting. Async but reliable.</p>
+      <p>How agents talk to each other without being in the same session. A coordinator drops a task into an inbox file. When that agent boots, it checks the inbox and finds the task waiting.</p>
     </div>
     <div class="tool-card">
       <div class="icon" style="background:linear-gradient(135deg,var(--gold),#ca8a04)">W</div>
-      <h3>Optional Watcher</h3>
-      <div class="role">IDE Bridge</div>
-      <p>A conservative Python bridge for chat-first setups that cannot run local checks directly. It accepts argv-only commands and asks you to approve each one in the terminal. Claude Code and Codex usually verify work directly without it.</p>
+      <h3>Vault Lint</h3>
+      <div class="role">Structural Check</div>
+      <p>A small Python script checks broken links, ambiguous links, backticked markdown registrations, and problem orphans. It fails loudly when the vault path is wrong.</p>
     </div>
     <div class="tool-card">
-      <div class="icon" style="background:linear-gradient(135deg,var(--pink),#dc2626)">S</div>
-      <h3>SQLite</h3>
-      <div class="role">Durable Memory</div>
-      <p>The machine-readable event log. Every VaultBus message, every status change, every command — stored in a structured database. If you ever need to audit what happened, query this. Agents can also use it for message tracking and deduplication.</p>
+      <div class="icon" style="background:linear-gradient(135deg,var(--pink),#dc2626)">R</div>
+      <h3>Local Retrieval</h3>
+      <div class="role">Search Starter</div>
+      <p>A no-dependency script indexes approved markdown and answers known questions with ranked file paths. It excludes private folders and secret-shaped content by default.</p>
     </div>
     <div class="tool-card">
       <div class="icon" style="background:linear-gradient(135deg,#8888a0,#555)">F</div>
-      <h3>File System</h3>
-      <div class="role">Shared Storage</div>
-      <p>One folder on your desktop that every agent can read and write. Project files, code repos, VaultBus inboxes, watcher bridge files — everything lives here. This is the physical layer that makes all coordination possible.</p>
+      <h3>Optional Watcher</h3>
+      <div class="role">Cowork Bridge</div>
+      <p>A conservative Python bridge for chat-first setups that cannot run local checks directly. It accepts argv-only commands and asks you to approve each one in the terminal.</p>
     </div>
   </div>
 </section>
@@ -322,92 +322,82 @@
 <!-- ═══════════ THE JOURNEY ═══════════ -->
 <section>
   <div class="sl">The Setup Journey</div>
-  <h2>10 Steps from Zero to Running System</h2>
-  <p class="sd">This is the sequence your setup co-pilot will walk you through. Each step builds on the last.</p>
+  <h2>9 Quests from Zero to Running System</h2>
+  <p class="sd">This is the sequence your setup co-pilot walks through. Each quest leaves a visible artifact or check.</p>
 
   <div class="journey">
-    <div class="j-step" data-step="1">
+    <div class="j-step" data-step="Q0">
       <h3>START_HERE.md
         <span class="tool-badge" style="color:var(--green);border-color:var(--green);">Entry Point</span>
       </h3>
-      <p>You paste the contents of START_HERE.md into Cowork, Claude Code, Codex, or a blended setup lead. This boots your setup co-pilot, whose job is to get you running.</p>
+      <p>You paste START_HERE.md into Cowork, Claude Code, Codex, or a blended setup lead. The co-pilot runs the diagnostic, recommends a lane, writes the progress file, and prepares the dashboard.</p>
     </div>
 
-    <div class="j-step" data-step="2">
-      <h3>Assessment
+    <div class="j-step" data-step="Q1">
+      <h3>Vault Foundation
         <span class="tool-badge" style="color:var(--accent);border-color:var(--accent);">Co-pilot</span>
       </h3>
-      <p>The co-pilot asks you a few questions: Do you have Obsidian? Notion? An IDE? What projects are you thinking about? Based on your answers, it builds a personalized lesson plan.</p>
+      <p>The co-pilot creates or verifies the vault folders, BRAIN_INDEX, session registry, and the public docs or operations files that the generated vault references.</p>
       <div class="plain">
-        While the co-pilot works on your plan, it sends you here — to this infographic — so you understand <strong>why</strong> each piece exists before you set it up.
+        <strong>What you'll have:</strong> a vault with the same folders described in README, PLAYBOOKS, and BRAIN_INDEX.
       </div>
     </div>
 
-    <div class="j-step" data-step="3">
-      <h3>Vault Setup
-        <span class="tool-badge" style="color:var(--accent);border-color:var(--accent);">Obsidian</span>
+    <div class="j-step" data-step="Q2">
+      <h3>Coordination Layer
+        <span class="tool-badge" style="color:var(--blue);border-color:var(--blue);">VaultBus</span>
       </h3>
-      <p>Your co-pilot creates the Obsidian vault with the standard folder structure (10 sections). This becomes the persistent memory layer — the thing that survives across every agent session, forever. You just install Obsidian and confirm.</p>
-      <div class="plain">
-        <strong>What you'll have:</strong> A vault with BRAIN_INDEX, handoff templates, VaultBus protocol, session registry, and project folders ready for your first agents — all built by your co-pilot.
-      </div>
+      <p>The co-pilot creates VaultBus status, command, escalation, event, and view folders. This gives agents a durable way to coordinate across sessions.</p>
     </div>
 
-    <div class="j-step" data-step="4">
-      <h3>VaultBus + SQLite
-        <span class="tool-badge" style="color:var(--blue);border-color:var(--blue);">Coordination</span>
+    <div class="j-step" data-step="Q3">
+      <h3>Dashboard
+        <span class="tool-badge" style="color:var(--green);border-color:var(--green);">Human View</span>
       </h3>
-      <p>Your co-pilot sets up the inter-agent messaging system: command inboxes for each agent, status files, and the SQLite event log. This is how your chief of staff will communicate with project agents.</p>
+      <p>The co-pilot updates a copied local HTML dashboard from your progress JSON. Notion is optional, and only added if you want a connected coordination hub.</p>
     </div>
 
-    <div class="j-step" data-step="5">
-      <h3>BRAIN_INDEX
-        <span class="tool-badge" style="color:var(--green);border-color:var(--green);">Registry</span>
+    <div class="j-step" data-step="Q4">
+      <h3>Chief of Staff Prompt
+        <span class="tool-badge" style="color:var(--accent);border-color:var(--accent);">Boot</span>
       </h3>
-      <p>Your co-pilot populates the master index — the single file every agent reads on boot. It tells them where projects live, where their inbox is, where handoffs go, and what rules to follow.</p>
+      <p>The co-pilot writes the first admin or Chief of Staff boot prompt. The prompt points to BRAIN_INDEX, VaultBus, and the active progress file.</p>
       <div class="plain">
         <strong>Key insight:</strong> If it's not in BRAIN_INDEX, it doesn't exist to agents. This is why "Create + Register = Atomic" is a core rule.
       </div>
     </div>
 
-    <div class="j-step" data-step="6">
-      <h3>Notion Dashboard
-        <span class="tool-badge" style="color:var(--green);border-color:var(--green);">Human View</span>
+    <div class="j-step" data-step="Q5">
+      <h3>Specialist Agent
+        <span class="tool-badge" style="color:var(--green);border-color:var(--green);">First Team</span>
       </h3>
-      <p>Your co-pilot sets up a ring-fenced Notion workspace with agent tracker, project tracker, and session log databases — connected via MCP so agents update it automatically. This is your management view.</p>
+      <p>The co-pilot writes one specialist prompt based on your real goal. The default setup proves a two-agent loop before adding more.</p>
     </div>
 
-    <div class="j-step" data-step="7">
-      <h3>Local Verification
-        <span class="tool-badge" style="color:var(--gold);border-color:var(--gold);">Bridge</span>
+    <div class="j-step" data-step="Q6">
+      <h3>Handoff Loop
+        <span class="tool-badge" style="color:var(--gold);border-color:var(--gold);">Memory Test</span>
       </h3>
-      <p>Your co-pilot chooses the safest verification path for your lane. Claude Code and Codex can usually run checks directly. Cowork can use the optional watcher only when you approve each command in the terminal.</p>
+      <p>The agent writes a handoff and next boot prompt. A fresh session reads the handoff and can name the current task, completed work, blocker, and next action.</p>
     </div>
 
-    <div class="j-step" data-step="8">
-      <h3>First Agent: Chief of Staff
-        <span class="tool-badge" style="color:var(--accent);border-color:var(--accent);">Boot</span>
+    <div class="j-step" data-step="Q7">
+      <h3>Quality Checks
+        <span class="tool-badge" style="color:var(--gold);border-color:var(--gold);">Verification</span>
       </h3>
-      <p>Boot your admin agent — your chief of staff. It reads BRAIN_INDEX, checks its inbox, and starts managing your system. This is the moment the system comes alive.</p>
+      <p>The co-pilot runs Vault Lint when local commands are available, checks onboarding and vault evals, and reports pass, warnings, or fail clearly.</p>
       <div class="plain">
-        <strong>Magic moment:</strong> Your chief of staff reads BRAIN_INDEX and says "I see the vault, I see my inbox, I'm ready to coordinate." You have a system.
+        <strong>Magic moment:</strong> the system can tell you what is active from the vault instead of relying on old chat memory.
       </div>
     </div>
 
-    <div class="j-step" data-step="9">
-      <h3>Second Agent: Project Specialist
-        <span class="tool-badge" style="color:var(--green);border-color:var(--green);">Scale</span>
-      </h3>
-      <p>Boot a project agent for your first real project. Your chief of staff writes its boot prompt, drops setup tasks in its inbox, and monitors its progress. Two agents, coordinating.</p>
-    </div>
-
-    <div class="j-step" data-step="10">
-      <h3>Third Agent + Graduation
+    <div class="j-step" data-step="Q8">
+      <h3>Optional Power Tools
         <span class="tool-badge" style="color:var(--gold);border-color:var(--gold);">Full System</span>
       </h3>
-      <p>Boot a third agent. Now you have a chief of staff managing two project specialists through VaultBus. You see coordination happening in real time. Nothing gets lost.</p>
+      <p>Add retrieval, security sweep, optional watcher, Notion dashboard, automations, or a blended second lane only when useful.</p>
       <div class="plain">
-        <strong>You've graduated when you understand:</strong> how to tell your chief of staff to tell an agent to save up, how handoffs work, how VaultBus keeps agents in sync, and how to add a new agent whenever you're ready.
+        <strong>You've graduated when:</strong> the vault exists, two prompts exist, the handoff loop works, progress is current, and you can explain where memory lives.
       </div>
     </div>
   </div>
@@ -417,25 +407,35 @@
 
 <!-- ═══════════ ARCHETYPES ═══════════ -->
 <section>
-  <div class="sl">Time Estimates</div>
-  <h2>How Long Will This Take?</h2>
-  <p class="sd">Depends on where you're starting. Your co-pilot will give you a precise estimate, but here's the range.</p>
+  <div class="sl">Setup Profiles</div>
+  <h2>Which Starting Point Fits?</h2>
+  <p class="sd">The diagnostic uses these profiles to choose pacing, examples, and the first setup lane.</p>
 
   <div class="archetype-grid">
     <div class="archetype">
-      <h3>The Explorer</h3>
-      <div class="time">~60–90 minutes across 2–3 sessions</div>
-      <p>You've never used Cowork, Claude Code, or Codex for this kind of setup. Starting from scratch. The co-pilot will walk you through every install and setup step. Your magic moment: when your chief of staff reads BRAIN_INDEX for the first time.</p>
+      <h3>Organizer</h3>
+      <div class="time">Cowork often fits first</div>
+      <p>You have many scattered AI chats and want continuity. The magic moment is seeing one agent resume from the vault instead of old chat.</p>
     </div>
     <div class="archetype">
-      <h3>The Builder</h3>
-      <div class="time">~30–45 minutes in 1–2 sessions</div>
-      <p>You already use Cowork and maybe Obsidian. You just need the multi-agent coordination layer. Your magic moment: when your chief of staff and project agent coordinate through VaultBus.</p>
+      <h3>Deep Worker</h3>
+      <div class="time">Claude Code or blended often fits</div>
+      <p>You already use AI heavily and want less overhead. The magic moment is lower-friction setup plus durable handoffs.</p>
     </div>
     <div class="archetype">
-      <h3>The Power User</h3>
-      <div class="time">~20–30 minutes in 1 session</div>
-      <p>You're running multiple workstreams and want the OS layer. You mostly need the vault structure, VaultBus protocol, and governance rules. Your magic moment: when nothing gets lost anymore.</p>
+      <h3>Enterprise Operator</h3>
+      <div class="time">Cowork plus early security fits</div>
+      <p>You need repeatable rollout and governance. The magic moment is a setup trail someone else can inspect.</p>
+    </div>
+    <div class="archetype">
+      <h3>Builder</h3>
+      <div class="time">Claude Code or Codex often fits</div>
+      <p>You want to edit files, repos, or systems and run checks. The magic moment is a patch verified by local tests.</p>
+    </div>
+    <div class="archetype">
+      <h3>Team Lead</h3>
+      <div class="time">Blended or Cowork first often fits</div>
+      <p>You want agents assigned to workstreams. The magic moment is clear ownership before anyone edits shared files.</p>
     </div>
   </div>
 </section>
@@ -485,11 +485,11 @@
   <div class="tool-grid" style="margin-top:1.5rem;">
     <div class="tool-card">
       <h3>When an agent runs out of memory</h3>
-      <p>Tell your chief of staff. It tells the agent to save up. The agent writes a handoff. The chief of staff writes the next boot prompt. You paste it into a new session. The cycle continues — no context lost.</p>
+      <p>The agent writes a handoff and the next boot prompt before context gets risky. You paste the prompt into a new session. The cycle continues with no context loss.</p>
     </div>
     <div class="tool-card">
       <h3>When you want a new project</h3>
-      <p>Tell your chief of staff. It creates the project folder, registers it in BRAIN_INDEX, writes a boot prompt for the new project agent, and drops setup instructions in its inbox. You boot it.</p>
+      <p>Tell your chief of staff. It creates the project folder, registers it in BRAIN_INDEX, writes a prompt for the new project agent, and records the next step in VaultBus.</p>
     </div>
   </div>
 </section>
@@ -500,7 +500,7 @@
 <section>
   <div class="sl">Why It Doesn't Break</div>
   <h2>The Rules That Keep It Clean</h2>
-  <p class="sd">Without governance, multi-agent systems degrade. These rules prevent that — each one exists because something went wrong without it.</p>
+  <p class="sd">Without governance, multi-agent systems degrade. These rules prevent that. Each one exists because something went wrong without it.</p>
 
   <div class="gov-grid">
     <div class="gov-card">
@@ -516,7 +516,7 @@
     <div class="gov-card">
       <div class="gov-num">03</div>
       <h3>Zero Mechanical Work</h3>
-      <p>You make decisions. Agents handle everything else — file management, deployments, coordination, monitoring.</p>
+      <p>You make decisions. Agents handle file management, checks, coordination, and records.</p>
     </div>
     <div class="gov-card">
       <div class="gov-num">04</div>
@@ -576,11 +576,11 @@
       </div>
       <div class="al">
         <div class="al-label" style="color:var(--dim)">Dashboard GUI</div>
-        <div class="al-chips"><span class="chip g">Notion</span></div>
+        <div class="al-chips"><span class="chip g">Local HTML Dashboard / Optional Notion</span></div>
       </div>
       <div class="al">
-        <div class="al-label" style="color:var(--dim)">Voice Interface</div>
-        <div class="al-chips"><span class="chip r">Wispr</span></div>
+        <div class="al-label" style="color:var(--dim)">Search</div>
+        <div class="al-chips"><span class="chip r">Local Retrieval</span></div>
       </div>
     </div>
   </div>
@@ -590,9 +590,9 @@
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <div class="footer">
-  <p>Agent OS Starter Kit — Build your first agent operating system step by step</p>
+  <p>Agent OS Starter Kit - Build your first agent operating system step by step</p>
   <p style="margin-top:0.4rem;">Built by <a href="https://github.com/Y-F-B-25">Yacob Berhane</a>. Designed for Claude, Codex, and blended local agent setups.</p>
-  <p style="margin-top:0.8rem;font-size:0.7rem;">When you're done here, go back to your co-pilot session — your personalized quest plan should be ready. Your co-pilot does the building; you approve and learn.</p>
+  <p style="margin-top:0.8rem;font-size:0.7rem;">When you're done here, go back to your co-pilot session. Your personalized quest plan should be ready. Your co-pilot does the building; you approve and learn.</p>
 </div>
 
 </body>

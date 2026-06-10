@@ -40,19 +40,27 @@ docs/
   SKILLS_PACK.md                   Skills included in the starter kit
   EVALS.md                         Onboarding and repo quality evals
   LOCAL_DASHBOARD.md               Optional local HTML dashboard guidance
+  NOTION_DASHBOARD_SCHEMA.md       Optional Notion dashboard schema
   VECTOR_RETRIEVAL.md              Local retrieval starter and upgrade path
   SAVE_UP.md                       Public handoff and continuation protocol
   SECURITY_REVIEW.md               Public release safety checks
   CLAUDE_LANE_EVIDENCE_GATE.md     Evidence rules for Claude-side lane reviews
   REPO_QC.md                       Dry run and launch checklist
+  DRY_RUN_PLAN.md                  Clean-room dry-run plan
   IMPLEMENTATION_QC.md             Full implementation-package QC
   clean-room-qa.html               Visual QA map for first-time setup testing
   tech-map.html                    Builder-facing stack map
+  onboarding-paths.html            Visual setup-path explainer
 
 vault/                             Obsidian vault template
   00 — Home/BRAIN_INDEX.md         Master index
+  01 — Security/                   Security handling notes
+  02 — Architecture/               Ownership and design templates
+  03 — Projects/                   Project notes
   04 — Operations/                 Context ceiling and vault lint
   05 — Sessions/                   Session registry template
+  06 — Decisions/                  Durable decision records
+  07 — Contacts/                   Optional people and team notes
   08 — Handoffs/                   Handoff protocol and boot template
   09 — VaultBus/                   Filesystem coordination protocol
 

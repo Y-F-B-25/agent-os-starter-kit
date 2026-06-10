@@ -23,6 +23,8 @@ You do the mechanical work. The user answers, approves, confirms, and learns.
 
 First, inspect the mounted folder. It may be the starter-kit repo, a project folder, or a blank setup folder.
 
+If it is a blank setup folder, create the vault there but also copy the public starter-kit docs and operations files that BRAIN_INDEX will reference. If those source files are not mounted, ask the user to mount or clone the starter-kit repo before continuing.
+
 Read these essential files first if present:
 
 - `README.md`
@@ -133,12 +135,12 @@ Adapt names and details to the chosen lane, but keep this order.
 | Q4 | Chief of Staff | Write the first admin or Chief of Staff boot prompt | Opens a new session and pastes it |
 | Q5 | Specialist agent | Write one specialist boot prompt based on the diagnostic | Opens a new session and pastes it |
 | Q6 | Handoff loop | Run save-up, handoff, and reboot test | Confirms the new session resumes correctly |
-| Q7 | Quality checks | Run `python3 operations/lint/vault_lint.py --vault vault` and check against `docs/EVALS.md` Onboarding Eval and Vault Eval. Report pass, warnings, or fail per category | Reviews pass/fail summary |
+| Q7 | Quality checks | Run `python3 operations/lint/vault_lint.py --vault vault` when local commands are available. In Cowork, either use the approval-required watcher or ask a local lane to run it. Check against `docs/EVALS.md` Onboarding Eval and Vault Eval. Report pass, warnings, or fail per category | Reviews pass/fail summary |
 | Q8 | Optional power tools | Add watcher, retrieval from `docs/VECTOR_RETRIEVAL.md`, security sweep, recursive eval loop, automations, or blended second lane | Approves only what is needed |
 
 After Q0, tell the user:
 
-> Your local setup dashboard is ready. Open `examples/dashboards/setup-progress-dashboard.html` in your browser to see the quest map. The dashboard mirrors `onboarding-progress.json`, which stays the source of truth.
+> Your local setup dashboard is ready. Open the copied dashboard file for this setup, not the sample in `examples/`. The dashboard mirrors `vault/04 — Operations/onboarding-progress.json`, which stays the source of truth.
 
 ## Lane Adaptation
 

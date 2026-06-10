@@ -1,8 +1,7 @@
 # Internal planning documents (contain real vault data)
 VAULT_CROSS_REFERENCE.md
 
-# User-generated secrets (created during setup — never commit these)
-vault/01 — Security/watcher_token.md
+# User-generated secrets (created during setup - never commit these)
 .env
 .env.*
 
@@ -23,6 +22,7 @@ Thumbs.db
 *.swp
 *.swo
 *~
+.tmp_*
 .vscode/
 .idea/
 __pycache__/

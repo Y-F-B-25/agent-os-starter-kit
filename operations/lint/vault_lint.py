@@ -14,7 +14,8 @@ CODE_PATH_RE = re.compile(r"`([^`\n]+\.md)(?:#[^`]*)?`")
 
 QUIET_PATH_PARTS = {
     "09 — VaultBus/20 — Commands",
-    "09 — VaultBus/30 — Chat",
+    "09 — VaultBus/10 — Status",
+    "09 — VaultBus/30 — Escalations",
     "09 — VaultBus/40 — Events",
     "04 — Operations/lint-reports",
 }
@@ -186,7 +187,13 @@ def main() -> int:
 
     root = Path(args.vault).resolve()
     report_dir = Path(args.report_dir).resolve()
+    if not root.exists():
+        raise SystemExit(f"Vault not found: {root}")
+    if not root.is_dir():
+        raise SystemExit(f"Vault path is not a directory: {root}")
     result = lint(root)
+    if not result["files"]:
+        raise SystemExit(f"Vault contains no markdown files: {root}")
     report = write_report(root, report_dir, result)
     print(
         f"[vault_lint] {len(result['files'])} files, "

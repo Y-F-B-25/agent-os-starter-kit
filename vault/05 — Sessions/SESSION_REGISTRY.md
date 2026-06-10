@@ -26,4 +26,4 @@ When an agent completes a session:
 When the admin writes a boot prompt for the next version:
 1. Verify the registry is current
 2. Cross-reference with the handoff doc
-3. Use `list_sessions` and `read_transcript` if the vault docs seem incomplete — trust session records over vault docs
+3. Re-read the relevant handoffs and session READMEs if the registry seems incomplete. The vault is the public source of truth.

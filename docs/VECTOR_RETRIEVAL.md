@@ -16,7 +16,7 @@ Run:
 
 ```bash
 python3 operations/retrieval/simple_retrieval.py --vault . --index .agent-os-retrieval/root-index.json --build
-python3 operations/retrieval/simple_retrieval.py --vault . --index .agent-os-retrieval/root-index.json --query "What is the handoff protocol?"
+python3 operations/retrieval/simple_retrieval.py --vault . --index .agent-os-retrieval/root-index.json --query "What is the save-up protocol?"
 ```
 
 The example writes its local index to `.agent-os-retrieval/root-index.json`, which should stay out of git.
@@ -41,7 +41,7 @@ The setup co-pilot should explain exclusions before indexing. If the user wants 
 
 Use three known questions:
 
-1. What is the handoff protocol?
+1. What is the save-up protocol?
 2. How do I run Vault Lint?
 3. How do I choose Cowork, Claude Code, Codex, or blended?
 
@@ -52,6 +52,8 @@ Pass criteria:
 - no credential-shaped text is printed
 - no absolute vault path is written into the index
 - the co-pilot records what was indexed
+
+The default retrieval starter intentionally excludes `vault/08 — Handoffs/`, so the expected public result for handoff behavior is `docs/SAVE_UP.md` or `vault/04 — Operations/CONTEXT_CEILING.md`, not the vault handoff template.
 
 ## When To Upgrade
 

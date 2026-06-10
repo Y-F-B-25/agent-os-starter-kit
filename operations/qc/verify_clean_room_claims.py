@@ -182,6 +182,12 @@ def main() -> int:
     args = parser.parse_args()
 
     repo = Path(args.repo).resolve()
+    if not repo.exists():
+        print(f"[FAIL] repo path: not found: {repo}")
+        return 1
+    if not repo.is_dir():
+        print(f"[FAIL] repo path: not a directory: {repo}")
+        return 1
     result = verify(repo)
     result.print()
     return 0 if result.ok else 1

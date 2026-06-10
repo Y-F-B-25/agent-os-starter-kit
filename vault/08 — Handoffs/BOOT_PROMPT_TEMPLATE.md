@@ -2,22 +2,22 @@
 
 ---
 
-Use this template when writing boot prompts for new agent versions. Keep it under 30 lines. The agent reads history on demand from the vault — never front-load context.
+Use this template when writing boot prompts for new agent versions. Keep it under 30 lines. The agent reads history on demand from the vault. Never front-load context.
 
-**Mount convention:** The human mounts the shared folder at the top level. All paths in boot prompts must be relative to the mounted folder — never use absolute paths.
+**Mount convention:** The human mounts the shared folder at the top level. All paths in boot prompts must be relative to the mounted folder. Never use absolute paths.
 
 ---
 
 ## Template
 
 ```
-You are [Role] v[N] — [one-line description].
+You are [Role] v[N] - [one-line description].
 
 ## Boot
 Your mounted folder is [Folder Name]. All paths below are relative to it.
 
 Read these files in order:
-1. `[Your Vault]/00 — Home/BRAIN_INDEX.md` (master index — tells you where everything is)
+1. `[Your Vault]/00 — Home/BRAIN_INDEX.md` (master index, tells you where everything is)
 2. `[Your Vault]/05 — Sessions/[Agent Name]/README.md` (your session history)
 3. `[Your Vault]/08 — Handoffs/[agent-slug]-v[N-1]-to-v[N].md` (what the previous version left you)
 

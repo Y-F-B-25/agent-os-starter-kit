@@ -23,7 +23,7 @@ Prerequisites: [COWORK_PREREQS.md](COWORK_PREREQS.md).
 
 ## User Responsibilities
 
-- Mount the Agent OS folder.
+- Mount the starter-kit folder, or the parent folder that contains it.
 - Approve the setup lane.
 - Open Obsidian or Notion when asked.
 - Paste boot prompts into new sessions.
@@ -43,7 +43,7 @@ Prerequisites: [COWORK_PREREQS.md](COWORK_PREREQS.md).
 
 ## Common Failure Modes
 
-- User mounts the repo folder but not the parent Agent OS folder.
+- User mounts a blank folder and the co-pilot cannot access the starter-kit docs or operations scripts.
 - Co-pilot assumes Notion is connected when it is not.
 - New agent sessions are opened before the first prompt is ready.
 - Handoff test is skipped because the user feels "done" too early.

@@ -1,11 +1,11 @@
-# BRAIN_INDEX.md — Agent Boot Index
+# BRAIN_INDEX.md - Agent Boot Index
 **Last updated:** [DATE]
 **Maintained by:** [Your Admin Name] (Admin Agent v1)
 
 ---
 
 ## How to Use This File
-You are an agent. Read this file on boot. It tells you where everything is. Do NOT memorize this — query the vault on demand.
+You are an agent. Read this file on boot. It tells you where everything is. Do NOT memorize this. Query the vault on demand.
 
 ---
 
@@ -18,7 +18,7 @@ All agent work lives at: `~/Desktop/[Your Folder]/`
 
 | Project | Work Folder | Vault Notes | Git Repo | Status |
 |---------|------------|-------------|----------|--------|
-| Example Project | `[Your Folder]/Projects/Example/` | `03 — Projects/Example/` | — | Active |
+| Example Project | `[Your Folder]/Projects/Example/` | `03 — Projects/Example/` | none | Active |
 <!-- Add your projects here. One row per project. -->
 
 ---
@@ -29,7 +29,7 @@ See full registry: `05 — Sessions/SESSION_REGISTRY.md`
 
 | Agent | Current Version | Session Folder | Status |
 |-------|----------------|----------------|--------|
-| Admin ([Your Admin Name]) | v1 | `05 — Sessions/Admin/` | Active — initial setup |
+| Admin ([Your Admin Name]) | v1 | `05 — Sessions/Admin/` | Active, initial setup |
 <!-- Add agents as you create them. -->
 
 ---
@@ -93,8 +93,8 @@ If the watcher is used, it runs in approval-required mode. Never write credentia
 ## Rules for Agents
 1. Read this file on boot. Do not ask the human for context you can find here.
 2. Query specific vault files on demand — never load everything at once.
-3. **Save-up produces TWO files.** When you hit the context ceiling, you write a handoff document AND a boot prompt for your next version. The human pastes the boot prompt to continue. Both are mandatory — see `04 — Operations/CONTEXT_CEILING.md`.
-4. Desktop is source of truth. Cloud storage is backup only.
+3. **Save-up produces TWO files.** When you hit the context ceiling, you write a handoff document AND a boot prompt for your next version. The human pastes the boot prompt to continue. Both are mandatory. See `04 — Operations/CONTEXT_CEILING.md`.
+4. The mounted folder is source of truth. Cloud storage is backup only.
 5. The human does zero mechanical work. If you need something done, do it or ask the admin agent.
 6. **Create + Register is atomic.** Any time you create a new file that other agents may need, you MUST register it in this index (BRAIN_INDEX.md) in the same action. If it's not in BRAIN_INDEX, it doesn't exist to the next agent. No exceptions.
 7. **Check your inbox (VaultBus).** Before starting work and after each milestone, read your VaultBus inbox at `09 — VaultBus/20 — Commands/inbox/{your-agent-slug}/`. Update your status file at `09 — VaultBus/10 — Status/{your-agent-slug}.md`.
