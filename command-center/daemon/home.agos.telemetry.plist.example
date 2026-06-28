@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  launchd template for auto-starting the Command Center daemon at login (macOS).
+  Replace every <...> placeholder with an absolute path, then:
+    cp home.agos.telemetry.plist.example ~/Library/LaunchAgents/home.agos.telemetry.plist
+    launchctl load ~/Library/LaunchAgents/home.agos.telemetry.plist
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>home.agos.telemetry</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/node</string>
+    <string><PATH_TO>/command-center/daemon/index.mjs</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string><PATH_TO>/command-center/daemon</string>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <dict>
+    <key>SuccessfulExit</key>
+    <false/>
+    <key>Crashed</key>
+    <true/>
+  </dict>
+
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+
+  <key>StandardOutPath</key>
+  <string><HOME>/Library/Logs/agos/telemetry.out.log</string>
+
+  <key>StandardErrorPath</key>
+  <string><HOME>/Library/Logs/agos/telemetry.err.log</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    <key>AGOS_CC_PORT</key>
+    <string>8787</string>
+    <key>AGOS_PROJECT_ROOT</key>
+    <string><PATH_TO>/your/workspace</string>
+  </dict>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+
+  <key>SoftResourceLimits</key>
+  <dict>
+    <key>NumberOfFiles</key>
+    <integer>4096</integer>
+  </dict>
+</dict>
+</plist>

@@ -5,6 +5,9 @@ VAULT_CROSS_REFERENCE.md
 .env
 .env.*
 
+# Keep the Command Center config template (overrides .env.* above)
+!command-center/.env.example
+
 # Generated reports
 vault/04 — Operations/lint-reports/latest_lint.md
 .agent-os-retrieval/

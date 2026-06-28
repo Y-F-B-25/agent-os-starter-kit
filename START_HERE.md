@@ -44,6 +44,7 @@ Read these lazy files only when the matching quest or question needs them:
 - `docs/EVALS.md`
 - `docs/SAVE_UP.md`
 - `docs/SECURITY_REVIEW.md`
+- `command-center/README.md`
 - `vault/09 — VaultBus/00 — Protocol/VAULTBUS_PROTOCOL.md`
 
 Then check whether a progress file already exists at:
@@ -99,7 +100,7 @@ Explain the recommendation in three short bullets:
 Then explain the Skills Pack in plain English:
 
 - What ships by default: vault setup, local dashboard, handoffs, Vault Lint, retrieval, evals, and security checks.
-- What is optional: Notion dashboard, watcher bridge, automations, blended second lane, and advanced app-specific skills.
+- What is optional: Command Center app, Notion dashboard, watcher bridge, automations, blended second lane, and advanced app-specific skills.
 - What is not included: private Command Center internals, private inboxes, raw logs, private routes, or personal agent memory.
 
 If the user's stated preference conflicts with the scoring, use the score as the recommendation and treat the preference as a sanity check. For example, a beginner Organizer who says "OpenAI/Codex-first" may still be better served by Cowork first, then Codex later.
@@ -136,7 +137,7 @@ Adapt names and details to the chosen lane, but keep this order.
 | Q5 | Specialist agent | Write one specialist boot prompt based on the diagnostic | Opens a new session and pastes it |
 | Q6 | Handoff loop | Run save-up, handoff, and reboot test | Confirms the new session resumes correctly |
 | Q7 | Quality checks | Run `python3 operations/lint/vault_lint.py --vault vault` when local commands are available. In Cowork, either use the approval-required watcher or ask a local lane to run it. Check against `docs/EVALS.md` Onboarding Eval and Vault Eval. Report pass, warnings, or fail per category | Reviews pass/fail summary |
-| Q8 | Optional power tools | Add watcher, retrieval from `docs/VECTOR_RETRIEVAL.md`, security sweep, recursive eval loop, automations, or blended second lane | Approves only what is needed |
+| Q8 | Optional power tools | Add Command Center from `command-center/README.md`, watcher, retrieval from `docs/VECTOR_RETRIEVAL.md`, security sweep, recursive eval loop, automations, or blended second lane | Approves only what is needed |
 
 After Q0, tell the user:
 
@@ -175,6 +176,10 @@ After Q0, tell the user:
   - Codex lane: repo edits, local validation, browser checks, implementation, verification.
 - Use one shared vault and one BRAIN_INDEX.
 - Do not let both agents edit the same file at the same time.
+
+## Optional Command Center App
+
+If the user wants the live app experience, use `command-center/README.md` after the vault basics exist. Command Center is part of this public starter kit, but it is optional. It should boot with placeholder agents and the user's own vault paths from `.env`, not private routes, private inboxes, real agent data, or secrets.
 
 ## Quality Loop
 

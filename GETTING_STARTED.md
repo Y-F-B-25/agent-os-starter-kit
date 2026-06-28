@@ -21,6 +21,7 @@ You do not need to know the right answer before you begin. The setup co-pilot wi
 4. Paste it as the first message.
 5. Answer the diagnostic in plain English.
 6. Let the co-pilot create files, prompts, progress tracking, and the first handoff test.
+7. Optional: if you want the fuller local app experience, open [command-center/README.md](command-center/README.md) and run Command Center against your own vault.
 
 ## What The Co-Pilot Builds
 
@@ -29,6 +30,7 @@ You do not need to know the right answer before you begin. The setup co-pilot wi
 - A VaultBus folder for status, commands, and event logs.
 - A progress file at `vault/04 — Operations/onboarding-progress.json`.
 - Optional Notion dashboard tracking setup quests.
+- Optional Command Center app for local group chat, routines, agent telemetry, project views, and map-style coordination.
 - A Chief of Staff boot prompt.
 - One specialist agent boot prompt.
 - A save-up and handoff test.
@@ -62,6 +64,7 @@ Take a screenshot, paste it into the co-pilot chat, and describe what you see. T
 - [docs/SETUP_PATHS.md](docs/SETUP_PATHS.md) for the four setup lanes.
 - [docs/COWORK_SETUP.md](docs/COWORK_SETUP.md), [docs/CLAUDE_CODE_SETUP.md](docs/CLAUDE_CODE_SETUP.md), [docs/CODEX_SETUP.md](docs/CODEX_SETUP.md), and [docs/BLENDED_SETUP.md](docs/BLENDED_SETUP.md) for lane-specific setup.
 - [docs/PLAYBOOKS.md](docs/PLAYBOOKS.md) for operating routines.
+- [command-center/README.md](command-center/README.md) for the optional local Command Center app.
 - [docs/SKILLS_PACK.md](docs/SKILLS_PACK.md) for what the starter kit teaches and installs.
 - [docs/EVALS.md](docs/EVALS.md) for quality checks.
 - [docs/SECURITY_REVIEW.md](docs/SECURITY_REVIEW.md) before public release.

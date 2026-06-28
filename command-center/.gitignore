@@ -1,0 +1,24 @@
+# Local runtime state — never commit (the daemon creates these dirs on first run)
+daemon/state/**
+
+# Secrets / local config
+.env
+*.local
+
+# Node / build
+node_modules/
+dist/
+*.tsbuildinfo
+"package-lock 2.json"
+
+# macOS / logs
+.DS_Store
+logs/
+*.log
+
+# Generated JS from tsc (vite bundles from .tsx)
+frontend/src/**/*.js
+
+# tsc build outputs in frontend root (vite bundles from .ts source)
+frontend/vite.config.js
+frontend/vite.config.d.ts

@@ -28,6 +28,11 @@ START_HERE.md                      Setup co-pilot boot prompt
 GETTING_STARTED.md                 Human guide to the four setup lanes
 ai-os-infographic.html             Technical overview
 
+command-center/                    Optional local Command Center app
+  README.md                        Command Center setup and run guide
+  daemon/                          Local API, chat, telemetry, and VaultBus bridge
+  frontend/                        React dashboard and group chat UI
+
 docs/
   DIAGNOSTIC.md                    Better diagnostic and path logic
   SETUP_PATHS.md                   Cowork, Claude Code, Codex, blended setup
@@ -95,6 +100,8 @@ examples/
 
 **The HTML dashboard is the default visual layer.** The progress JSON is the source of truth. The local HTML dashboard makes quests easier to scan, and Notion is the optional coordination hub for users who want a command-center-style workspace.
 
+**Command Center is the optional live app layer.** The repo includes `command-center/` for users who want the fuller local dashboard, group chat, routines, agent telemetry, project views, and map-style coordination surfaces. It boots from the user's own `.env` and config, not from private routes, private inboxes, or real agent memory.
+
 **Retrieval starts local.** The starter retrieval script indexes approved vault markdown files without external APIs. Users can upgrade later when the vault is large enough to need semantic search.
 
 ## The Four Layers
@@ -120,6 +127,8 @@ The setup co-pilot will:
 6. Run a save-up and handoff test.
 7. Run vault lint and onboarding eval checks.
 8. Explain the Skills Pack and leave you with next-agent instructions.
+
+If you want the full local app experience, read [command-center/README.md](command-center/README.md) after the vault basics are in place. Command Center is part of this starter kit, but it is optional.
 
 For QA, use [docs/clean-room-qa.html](docs/clean-room-qa.html) to test the repo from a fresh temp folder, blank vault, and no private context.
 
